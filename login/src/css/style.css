@@ -1,0 +1,106 @@
+.signup,
+.signin {
+    color: white;
+    background-color: var(--back);
+    border-radius: 15px;
+    width: 350px;
+    max-width: 80vw;
+    min-height: 10vh;
+    max-height: 80vh;
+    padding: 30px;
+}
+
+.option {
+    display: flex;
+    flex-flow: column;
+}
+
+.create,
+.select,
+.welcome {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 20px 0px;
+}
+
+.option input {
+    background-color: var(--base);
+    height: 30px;
+    border-radius: 30px;
+    padding: 2px 20px;
+    font-weight: 300;
+    margin: 10px 0px;
+}
+
+.option button {
+    height: 30px;
+    border-radius: 30px;
+    background-color: var(--front);
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+}
+
+.arrow {
+    position: absolute;
+}
+
+.arrow-right {
+    right: 20px;
+}
+
+.arrow-left {
+    left: 20px;
+}
+
+.arrow img {
+    height: 13px;
+    width: 13px;
+}
+
+.ctl-signup,
+.ctl-forgot {
+    font-size: 0.7rem;
+    font-weight: 300;
+}
+
+.ctl-signup button {
+    color: var(--front);
+    padding: 0px 4px;
+}
+
+.controls {
+    display: flex;
+    margin: 10px 0px;
+}
+
+.justify-signin {
+    justify-content: space-between;
+}
+
+.justify-signup {
+    justify-content: center;
+}
+
+/*
+mobile view port
+*/
+@media screen and (max-width: 800px) {
+}
+
+/*
+constents
+*/
+
+input,
+button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}

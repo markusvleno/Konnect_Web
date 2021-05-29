@@ -1,0 +1,45 @@
+:root {
+    --base: #2e3036;
+    --back: #3e4147;
+    --front: #20bf55;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+.base {
+    background-color: var(--base);
+    height: 100vh;
+    max-height: 100vh;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    min-width: 100vw;
+}
+
+.bgLogo {
+    background-image: url("../images/logo.svg");
+    background-blend-mode: overlay;
+    background-size: 700px 700px;
+    background-repeat: no-repeat;
+    background-position: bottom -170px left -200px;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
+/*
+mobile view port
+*/
+
+@media screen and (max-width: 900px) {
+    .base {
+        background-size: 300px 300px;
+        background-position: bottom -80px left -80px;
+    }
+}
