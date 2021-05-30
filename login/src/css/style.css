@@ -23,6 +23,18 @@
     padding: 20px 0px;
 }
 
+.pad {
+    border: 1px solid transparent;
+}
+
+.not-valid {
+    border: 1px solid red;
+}
+
+.valid {
+    border: 1px solid rgb(0, 187, 0);
+}
+
 .option input {
     background-color: var(--base);
     height: 30px;
@@ -64,6 +76,10 @@
 .ctl-forgot {
     font-size: 0.7rem;
     font-weight: 300;
+}
+
+.ctl-forgot {
+    color: var(--front);
 }
 
 .ctl-signup button {

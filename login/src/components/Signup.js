@@ -38,8 +38,8 @@ class SignUp extends React.Component {
                         <img src={arrow} alt="arrow" style={{ transform: "rotate(180deg)" }} />
                     </div>
                 </button>
-                <button type="submit">
-                    <span>Submit</span>
+                <button type="submit" onClick={(event) => event.preventDefault()}>
+                    <span>Sign up</span>
                     <div className="arrow arrow-right">
                         <img src={arrow} alt="arrow" />
                     </div>
@@ -57,7 +57,15 @@ class SignUp extends React.Component {
                 <div className="controls justify-signup">
                     <div className="ctl-signup">
                         Already have an account?
-                        <button type="button">Sign In</button>
+                        <button
+                            type="button"
+                            onClick={(event) => {
+                                event.preventDefault();
+                                this.props.changeState(true);
+                            }}
+                        >
+                            Sign In
+                        </button>
                     </div>
                 </div>
             </div>
