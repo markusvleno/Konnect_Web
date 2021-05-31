@@ -11,6 +11,8 @@
     -webkit-clip-path: circle(99% at 100% 51%);
     clip-path: circle(99% at 100% 50%);
     background-color: var(--front);
+    transform: translateX(500px);
+    animation: entry-desktop 400ms ease-in 50ms forwards;
 }
 
 .inner-template {
@@ -28,13 +30,14 @@ mobile view port
         right: unset;
         bottom: 0;
         min-width: 100vw;
-        max-width: 100vw;
+        max-width: 100vh;
         min-height: 70vh;
         max-height: 70vh;
-        animation-name: entry-mobile;
     }
 
     .outer-template {
+        transform: translateY(300px);
+        animation: entry-mobile 400ms ease-in 50ms forwards;
         -webkit-clip-path: circle(99% at 49% 100%);
         clip-path: circle(99% at 50% 100%);
     }
@@ -46,14 +49,21 @@ mobile view port
 }
 
 @keyframes entry-desktop {
+    from {
+        transform: translateX(500px);
+    }
+
+    to {
+        transform: translateX(0px);
+    }
 }
 
 @keyframes entry-mobile {
     from {
-        height: 10vh;
+        transform: translateY(300px);
     }
 
     to {
-        height: 70vh;
+        transform: translateY(0px);
     }
 }

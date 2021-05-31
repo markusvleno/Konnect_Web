@@ -9,7 +9,7 @@ class Login extends React.Component {
             <div className="base flex">
                 <div className="logo">
                     <span className="konnect">
-                        K<img src={logo} />
+                        K<img src={logo} alt="logo" />
                         NNECT
                     </span>
                     <span>Chat anonymously & securly</span>
