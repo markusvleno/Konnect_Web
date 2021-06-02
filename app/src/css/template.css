@@ -1,0 +1,64 @@
+.template {
+    display: grid;
+    grid-template-columns: 25vw 71vw;
+    grid-template-rows: 15vh 8vh 70vh;
+    grid-template-areas:
+        "l o"
+        "s c"
+        "u c";
+
+    padding: 4vh 2vw;
+}
+
+.logo {
+    background-color: darkorchid;
+    grid-area: l;
+}
+
+.options {
+    background-color: fuchsia;
+    grid-area: o;
+}
+
+.search {
+    background-color: gold;
+    grid-area: s;
+}
+
+.users {
+    background-color: darkgreen;
+    grid-area: u;
+}
+
+.converstion {
+    background-color: royalblue;
+    grid-area: c;
+}
+
+/*
+mobile view port
+*/
+
+@media screen and (max-width: 900px) {
+    .template {
+        display: grid;
+        padding: 25px 30px;
+        grid-template-columns: 1fr 3fr;
+    }
+
+    .m-menu-area {
+        grid-template-rows: 10vh 8vh 75vh;
+        grid-template-areas:
+            "l o"
+            "s s"
+            "u u";
+    }
+
+    .m-chat-area {
+        grid-template-rows: 10vh 83vh;
+        grid-template-areas:
+            "o o"
+            "c c"
+            "c c";
+    }
+}
