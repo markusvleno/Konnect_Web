@@ -1,7 +1,7 @@
 .template {
     display: grid;
     grid-template-columns: 25vw 71vw;
-    grid-template-rows: 15vh 8vh 70vh;
+    grid-template-rows: 10vh 8vh 74vh;
     grid-template-areas:
         "l o"
         "s c"
@@ -10,29 +10,30 @@
     padding: 4vh 2vw;
 }
 
-.logo {
-    background-color: darkorchid;
+.template-logo {
     grid-area: l;
 }
-
-.options {
-    background-color: fuchsia;
+.template-options {
     grid-area: o;
 }
 
-.search {
-    background-color: gold;
+.template-search {
     grid-area: s;
 }
 
-.users {
+.template-users {
     background-color: darkgreen;
     grid-area: u;
 }
 
-.converstion {
+.template-converstion {
     background-color: royalblue;
     grid-area: c;
+}
+
+.template-back {
+    background-color: purple;
+    grid-area: b;
 }
 
 /*
@@ -52,13 +53,5 @@ mobile view port
             "l o"
             "s s"
             "u u";
-    }
-
-    .m-chat-area {
-        grid-template-rows: 10vh 83vh;
-        grid-template-areas:
-            "o o"
-            "c c"
-            "c c";
     }
 }

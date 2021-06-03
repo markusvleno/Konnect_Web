@@ -1,0 +1,65 @@
+.option {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 230px 50px;
+    align-content: center;
+}
+
+.user-detail {
+    background-color: var(--back);
+    border-radius: 30px;
+    height: 40px;
+}
+.controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0px 10px;
+}
+
+.tab-conversation img {
+    width: 25px;
+    height: 25px;
+}
+
+.tab-add img {
+    width: 25px;
+    height: 25px;
+}
+
+.tab-settings img {
+    width: 25px;
+    height: 25px;
+}
+
+.tab-logout img {
+    width: 25px;
+    height: 25px;
+}
+
+/*
+mobile view port
+*/
+
+@media screen and (max-width: 900px) {
+    .option {
+        grid-template-columns: 1fr;
+    }
+
+    .user-detail {
+        display: none;
+    }
+
+    .controls {
+        justify-content: flex-end;
+    }
+
+    .controls > * {
+        margin: 0px 7px;
+    }
+
+    .me-photo {
+        display: none;
+    }
+}
