@@ -6,13 +6,13 @@ class Users extends React.Component {
     constructor() {
         super();
         this.sample = [
-            { name: "Baby dbnwd", profile: { logo }, lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", profile: { logo }, lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", profile: { logo }, lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", profile: { logo }, lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", profile: { logo }, lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", profile: { logo }, lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", profile: { logo }, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
         ];
     }
 
@@ -22,18 +22,21 @@ class Users extends React.Component {
                 <div className="lastMsg">{user.lastMsg}</div>
                 <div className="lastMsgTime">{user.lastMsgTime}</div>
   */
-    makeList(user) {
-        return <li>{user.name}</li>;
-    }
-
-    k(user) {
-        console.log(user);
+    makeList(user, index) {
+        return (
+            <li className={`li${index}`}>
+                <img className="profile" src={user.profile} alt="user profile" />
+                <div className="name">{user.name}</div>
+                <div className="lastMsg">{user.lastMsg}</div>
+                <div className="lastMsgTime">{user.lastMsgTime}</div>
+            </li>
+        );
     }
 
     render() {
         return (
             <div className="users">
-                <ul className="users-list">{this.sample.forEach((user) => this.makeList(user))}</ul>
+                <ul className="users-list">{this.sample.map((user, index) => this.makeList(user, index))}</ul>
             </div>
         );
     }
