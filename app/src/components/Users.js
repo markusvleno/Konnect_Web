@@ -6,13 +6,28 @@ class Users extends React.Component {
     constructor() {
         super();
         this.sample = [
-            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
-            { name: "Baby dbnwd", lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
+            { name: "Baby dbnwd", profile: logo, lastMsg: "brah", lastMsgTime: " 8:00PM" },
         ];
     }
 
@@ -24,8 +39,8 @@ class Users extends React.Component {
   */
     makeList(user, index) {
         return (
-            <li className={`li${index}`}>
-                <img className="profile" src={user.profile} alt="user profile" />
+            <li key={index} className="">
+                <img className="profile " src={logo} alt="user profile" />
                 <div className="name">{user.name}</div>
                 <div className="lastMsg">{user.lastMsg}</div>
                 <div className="lastMsgTime">{user.lastMsgTime}</div>
