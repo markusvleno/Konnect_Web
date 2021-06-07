@@ -1,6 +1,5 @@
 import "../css/template.css";
 import React from "react";
-import logo from "../images/logo.svg";
 import Signin from "./Signin";
 import Signup from "./Signup";
 
@@ -10,20 +9,18 @@ class Template extends React.Component {
     changeState = (value) => {
         this.setState({ registered: value });
     };
-
     render() {
         return (
-            <div className="container">
-                <span className="heading">
-                    K<img src={logo} alt="o" height="40px" width="40px" />
-                    NNECT
-                </span>
+            <React.Fragment>
+                <div className="template outer-template">
+                    <div className="template inner-template"></div>
+                </div>
                 {this.state.registered ? (
                     <Signin changeState={this.changeState} />
                 ) : (
                     <Signup changeState={this.changeState} />
                 )}
-            </div>
+            </React.Fragment>
         );
     }
 }

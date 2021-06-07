@@ -1,6 +1,6 @@
 import "../css/style.css";
 import React from "react";
-import arrow from "../images/right-arrow.svg";
+import arrow from "../images/right_arrow.svg";
 
 class SignUp extends React.Component {
     state = { notSelectUsername: true };
@@ -50,7 +50,7 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <div className="signup">
+            <div className="signup container">
                 <form className="form">
                     {this.state.notSelectUsername ? this.renderCredential() : this.selectUsername()}
                 </form>

@@ -1,8 +1,8 @@
 import "../css/style.css";
-import rightArrow from "../images/right-arrow.svg";
+import rightArrow from "../images/right_arrow.svg";
 
 import React from "react";
-import { validUsername } from "../apis/api";
+//import { validUsername } from "../apis/api";
 
 class Signin extends React.Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class Signin extends React.Component {
 
     render() {
         return (
-            <div className="signin ">
+            <div className="signin container">
                 <form className="option form">
                     <span className="welcome">Welcome Back.</span>
                     <input
