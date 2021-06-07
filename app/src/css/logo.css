@@ -9,7 +9,7 @@
     letter-spacing: 2px;
 }
 
-.logo img {
+.logo svg {
     width: 35px;
     height: 35px;
     padding: 0px 2px;
@@ -24,7 +24,7 @@ mobile view port
         font-size: 0;
     }
 
-    .logo img {
+    .logo svg {
         width: 40px;
         height: 40px;
     }

@@ -27,6 +27,11 @@
     left: 15px;
 }
 
+.search-logo svg {
+    width: inherit;
+    height: inherit;
+}
+
 /*
 mobile view port
 */

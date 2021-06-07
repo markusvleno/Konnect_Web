@@ -66,4 +66,19 @@ mobile view port
 */
 
 @media screen and (max-width: 900px) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #292929;
+    border-radius: 20px;
 }
