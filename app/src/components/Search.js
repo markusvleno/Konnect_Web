@@ -1,13 +1,13 @@
 import "../css/search.css";
 import React from "react";
 
-import logo_search from "../images/search.svg";
+import { search } from "../images/svgs";
 
 class Search extends React.Component {
     render() {
         return (
             <div className="search">
-                <img src={logo_search} alt="logo search" className="search-logo" />
+                <div className="search-logo">{search()}</div>
                 <input type="text" placeholder="Search" />
             </div>
         );

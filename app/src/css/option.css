@@ -21,11 +21,27 @@
 .control-svg {
     width: 25px;
     height: 25px;
+    background-color: white;
 }
 
-.svg-logo:hover * {
-    fill: var(--front);
-    opacity: none;
+.control-svg:hover {
+    background-color: var(--front);
+}
+
+.tab-conversation {
+    mask: url("../images/conversation.svg") no-repeat center;
+}
+
+.tab-add {
+    mask: url("../images/add_friend.svg") no-repeat center;
+}
+
+.tab-settings {
+    mask: url("../images/settings.svg") no-repeat center;
+}
+
+.tab-logout {
+    mask: url("../images/logout.svg") no-repeat center;
 }
 
 /*
@@ -47,6 +63,10 @@ mobile view port
 
     .controls > * {
         margin: 0px 7px;
+    }
+
+    .control-svg {
+        height: 40px;
     }
 
     .me-photo {
