@@ -6,11 +6,6 @@
     align-content: center;
 }
 
-.user-detail {
-    background-color: var(--back);
-    border-radius: 30px;
-    height: 40px;
-}
 .controls {
     display: flex;
     justify-content: space-evenly;
@@ -60,10 +55,6 @@ mobile view port
 @media screen and (max-width: 900px) {
     .option {
         grid-template-columns: 1fr;
-    }
-
-    .user-detail {
-        display: none;
     }
 
     .controls {

@@ -36,7 +36,7 @@
     grid-area: p;
     height: 40px;
     width: 40px;
-    padding: 4px 0px 0px 10px;
+    margin: auto;
 }
 
 .name {

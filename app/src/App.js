@@ -5,6 +5,7 @@ import Logo from "./components/Logo";
 import Option from "./components/Option";
 import Search from "./components/Search";
 import Users from "./components/Users";
+import Conversation from "./components/Conversation";
 
 class App extends React.Component {
     render() {
@@ -23,7 +24,9 @@ class App extends React.Component {
                     <div className="template-users">
                         <Users />
                     </div>
-                    <div className="template-converstion"></div>
+                    <div className="template-converstion">
+                        <Conversation />
+                    </div>
                 </div>
             </div>
         );

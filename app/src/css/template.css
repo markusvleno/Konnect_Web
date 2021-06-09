@@ -15,6 +15,7 @@
 }
 .template-options {
     grid-area: o;
+    margin-left: 20px;
 }
 
 .template-search {
@@ -26,13 +27,8 @@
 }
 
 .template-converstion {
-    background-color: royalblue;
     grid-area: c;
-}
-
-.template-back {
-    background-color: purple;
-    grid-area: b;
+    margin-left: 20px;
 }
 
 /*
