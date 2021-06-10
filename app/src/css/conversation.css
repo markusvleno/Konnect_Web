@@ -1,8 +1,11 @@
 .conversation {
     height: 100%;
-    width: 100%;
     border-radius: 30px;
     background-color: var(--back);
+}
+
+.btn-back {
+    display: none;
 }
 
 /*
@@ -11,10 +14,29 @@ mobile view port
 
 @media screen and (max-width: 900px) {
     .template-converstion {
+        background-color: var(--base);
         position: absolute;
         top: 0;
         left: 0;
         height: 100%;
         width: 100%;
+        margin: unset;
+        display: flex;
+        flex-flow: column;
+    }
+
+    .btn-back {
+        flex: 1;
+        display: flex;
+        min-width: 65px;
+        min-height: 65px;
+        max-width: 65px;
+        max-height: 65px;
+        border-radius: 0px 50px 50px 0px;
+        background-color: var(--back);
+    }
+
+    .conversation {
+        flex: 9;
     }
 }

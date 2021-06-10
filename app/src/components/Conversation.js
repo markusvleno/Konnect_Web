@@ -3,7 +3,12 @@ import React from "react";
 
 class Conversation extends React.Component {
     render() {
-        return <div className="conversation"></div>;
+        return (
+            <React.Fragment>
+                <div className="btn-back"></div>
+                <div className="conversation"></div>
+            </React.Fragment>
+        );
     }
 }
 

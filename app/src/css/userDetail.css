@@ -22,7 +22,4 @@ mobile view port
 */
 
 @media screen and (max-width: 900px) {
-    .user-detail {
-        display: none;
-    }
 }
