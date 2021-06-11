@@ -23,6 +23,8 @@ class App extends React.Component {
             <div className="base">
                 <div className="robot-base">
                     <div className="robot">{robot()}</div>
+                    <div className="_404">{_404()}</div>
+                    <div className="gear1">{gear1()}</div>
                 </div>
                 <span className="oops"></span>
             </div>
