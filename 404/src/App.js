@@ -20,6 +20,24 @@ class App extends React.Component {
                     {logo()}
                     <span>ops!</span>
                 </div>
+                <span className="quote">
+                    We couldn't find the thing you were looking for, but here are some option that might help you to get
+                    back on track!.
+                </span>
+                <div className="control">
+                    <span>
+                        Go to{" "}
+                        <a href="/" style={{ color: "var(--front)" }}>
+                            Homepage
+                        </a>
+                    </span>
+                    <span>
+                        Contact our{" "}
+                        <a href="/" style={{ color: "var(--front)" }}>
+                            Support
+                        </a>
+                    </span>
+                </div>
             </div>
         );
     }

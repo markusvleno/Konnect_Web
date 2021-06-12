@@ -8,6 +8,7 @@
     padding: 0;
     margin: 0;
     font-family: "Poppins", sans-serif;
+    color: white;
 }
 
 .base {
@@ -85,9 +86,26 @@
 }
 
 .oops span {
-    color: white;
     font-size: 3rem;
     font-weight: 800;
+}
+
+.quote {
+    width: 60vw;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+}
+
+.control {
+    display: flex;
+    width: 60vw;
+    justify-content: space-between;
+    font-weight: 700;
 }
 
 /*
@@ -104,6 +122,7 @@ mobile view port
         width: 300px;
         height: 300px;
         margin-top: 50px;
+        margin-bottom: 40px;
     }
 
     .gear1 {
@@ -144,6 +163,15 @@ mobile view port
         left: 130px;
         top: 70px;
     }
+
+    .quote {
+        width: 80vw;
+        margin-bottom: 20px;
+    }
+
+    .control {
+        width: 95vw;
+    }
 }
 
 /*
@@ -151,7 +179,7 @@ animations
 */
 
 .gear1 {
-    animation: spin 4s linear infinite;
+    animation: spin 5s linear infinite;
 }
 .gear2 {
     animation: spin-back 20s linear infinite;
@@ -219,21 +247,21 @@ animations
     }
 
     60% {
-        transform: translateX(2px);
+        transform: translateY(-3px);
     }
 
     70% {
-        transform: translateX(-10px);
+        transform: translateX(-7px);
     }
 
     80% {
-        transform: translateX(-10px);
+        transform: translateY(-5px);
     }
 
     90% {
         transform: translateX(2px);
     }
     100% {
-        transform: translateX(-5px);
+        transform: translateX(0px);
     }
 }
