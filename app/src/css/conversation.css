@@ -8,6 +8,10 @@
     display: none;
 }
 
+.template-converstion .user-detail {
+    display: none;
+}
+
 /*
 mobile view port
 */
@@ -21,12 +25,24 @@ mobile view port
         height: 100%;
         width: 100%;
         margin: unset;
+        display: grid;
+
+        grid-template-columns: 70px 1fr;
+        grid-template-rows: 70px 1fr;
+        grid-template-areas:
+            "b u"
+            "c c";
+
+        align-items: center;
+    }
+    .template-converstion .user-detail {
         display: flex;
-        flex-flow: column;
+        grid-area: u;
+        margin-right: 20px;
     }
 
     .btn-back {
-        flex: 1;
+        grid-area: b;
         display: flex;
         min-width: 65px;
         min-height: 65px;
@@ -37,6 +53,9 @@ mobile view port
     }
 
     .conversation {
-        flex: 9;
+        grid-area: c;
+        height: 85vh;
+        width: 90vw;
+        margin: auto;
     }
 }
