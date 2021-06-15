@@ -1,6 +1,6 @@
 import "./style.css";
 import React from "react";
-import { logo, robotIlustration, gear1, gear2, gear3, gear4, gearinner1, gearinner2, gearinner4 } from "./images/Svgs";
+import { logo, robotIlustration, gear1, gear2, gear3, gear4, gearinner1, gearinner2, gearinner4 } from "./svgs/Svg";
 
 class App extends React.Component {
     render() {

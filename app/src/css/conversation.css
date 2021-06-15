@@ -50,6 +50,10 @@ mobile view port
         max-height: 65px;
         border-radius: 0px 50px 50px 0px;
         background-color: var(--back);
+        background-image: url("../images/control_arrow.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 45px;
     }
 
     .conversation {
