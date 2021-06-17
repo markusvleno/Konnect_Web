@@ -2,7 +2,7 @@
     "name": "konnect-404",
     "version": "0.1.0",
     "private": true,
-    "homepage": "/404",
+    "homepage": "/static/404",
     "dependencies": {
         "babel-eslint": "^10.1.0",
         "browserslist": "^4.16.6",
