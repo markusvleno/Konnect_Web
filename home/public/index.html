@@ -11,6 +11,11 @@
         <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
         <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
             .Loading-template {
                 display: flex;
                 background-color: #1f2022;
@@ -113,10 +118,6 @@
                 100% {
                     transform: translateX(-190px);
                 }
-            }
-
-            .Hidden {
-                display: none;
             }
         </style>
 
@@ -263,7 +264,7 @@
         <div id="root"></div>
 
         <script>
-            const loaded = () => {
+            const loadedAnimation = () => {
                 document.getElementById("dot1").classList.add("Fade-out");
                 document.getElementById("dot2").classList.add("Fade-out");
                 document.getElementById("dot3").classList.add("Fade-out");
@@ -271,8 +272,15 @@
                 document.getElementById("arrow").classList.add("Slide-arrow");
             };
             const hide = () => {
-                document.getElementById("loading-template").classList.add("Hidden");
+                document.getElementById("loading-template").style.display = "none";
             };
+
+            window.addEventListener("load", () => {
+                loadedAnimation();
+                setTimeout(() => {
+                    hide();
+                }, 600);
+            });
         </script>
     </body>
 </html>
