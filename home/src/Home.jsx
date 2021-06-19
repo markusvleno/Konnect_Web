@@ -1,8 +1,14 @@
+import "./css/base.css";
 import React from "react";
+import Nav from "./conponents/Nav.jsx";
 
 class Home extends React.Component {
     render() {
-        return <h1>brah</h1>;
+        return (
+            <div className="Base">
+                <Nav />
+            </div>
+        );
     }
 }
 

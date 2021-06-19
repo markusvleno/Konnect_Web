@@ -5,7 +5,7 @@ module.exports = {
     entry: path.join(__dirname, "src", "index.jsx"),
     output: {
         path: path.resolve(__dirname, "build"),
-        publicPath: "static/",
+        // publicPath: "static/", // only for build
         filename: "bundle.js",
     },
     module: {
