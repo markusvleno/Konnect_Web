@@ -6,7 +6,7 @@ import Signup from "./Signup";
 class Template extends React.Component {
     state = { registered: true };
 
-    changeState = (value) => {
+    setRegister = (value) => {
         this.setState({ registered: value });
     };
     render() {
@@ -16,9 +16,9 @@ class Template extends React.Component {
                     <div className="template inner-template"></div>
                 </div>
                 {this.state.registered ? (
-                    <Signin changeState={this.changeState} />
+                    <Signin registered={this.setRegister} />
                 ) : (
-                    <Signup changeState={this.changeState} />
+                    <Signup registered={this.setRegister} />
                 )}
             </React.Fragment>
         );

@@ -2,20 +2,24 @@ import "../css/style.css";
 import rightArrow from "../images/right_arrow.svg";
 
 import React from "react";
-//import { validUsername } from "../apis/api";
+import { fetchUsername, matchUsername } from "../apis/api";
 
 class Signin extends React.Component {
     constructor(props) {
         super(props);
-        this.inusername = null;
-        this.inpassword = null;
+        this.inusername = React.createRef();
+        this.inpassword = React.createRef();
     }
-    state = { validUsername: false, username: "", pw: "" };
 
-    componentDidMount() {
-        this.inusername = document.getElementById("inusername");
-        this.inpassword = document.getElementById("inpassword");
-    }
+    fetchTO = null;
+
+    validateUsername = (username) => {
+        if (!matchUsername(username)) return;
+        clearTimeout(this.fetchTO);
+        this.fetchTO = setTimeout(async () => {
+            await fetchUsername(username);
+        }, 2000);
+    };
 
     render() {
         return (
@@ -24,16 +28,22 @@ class Signin extends React.Component {
                     <span className="welcome">Welcome Back.</span>
                     <input
                         type="text"
-                        id="inusername"
                         className="pad"
                         placeholder="Username"
-                        value={this.state.username}
-                        onInput={(e) => {
-                            e.preventDefault();
+                        ref={this.inpassword}
+                        autoComplete="on"
+                        onChange={(event) => {
+                            event.preventDefault();
+                            this.validateUsername(event.currentTarget.value);
                         }}
                     />
-                    <input type="password" placeholder="Password" />
-                    <button type="submit" onClick={(event) => event.preventDefault()}>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        ref={this.inpassword}
+                        autoComplete="current-password"
+                    />
+                    <button type="submit">
                         <span>Log in</span>
                         <div className="arrow arrow-right">
                             <img src={rightArrow} alt="arrow" />
@@ -45,9 +55,10 @@ class Signin extends React.Component {
                         Not a user?
                         <button
                             type="button"
-                            onClick={(event) => {
-                                event.preventDefault();
-                                this.props.changeState(false);
+                            onClick={(e) => {
+                                e.preventDefault();
+
+                                this.props.registered(false);
                             }}
                         >
                             Sign up

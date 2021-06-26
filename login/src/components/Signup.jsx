@@ -3,6 +3,13 @@ import React from "react";
 import arrow from "../images/right_arrow.svg";
 
 class SignUp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.upusername = React.createRef();
+        this.uppassword = React.createRef();
+        this.uprepassword = React.createRef();
+    }
+
     state = { notSelectUsername: true };
 
     click = (event) => {
@@ -10,11 +17,15 @@ class SignUp extends React.Component {
         this.setState({ notSelectUsername: !this.state.notSelectUsername });
     };
 
+    validateEmail = (event) => {
+        const _email = event.target.value;
+    };
+
     renderCredential = () => {
         return (
             <div className="option">
                 <span className="create">Create account.</span>
-                <input type="text" placeholder="Email" />
+                <input type="email" placeholder="Email" onChange={this.validateEmail} />
                 <input type="password" placeholder="Password" />
                 <input type="password" placeholder="Confirm Password" />
                 <button type="button" onClick={this.click}>
@@ -61,7 +72,7 @@ class SignUp extends React.Component {
                             type="button"
                             onClick={(event) => {
                                 event.preventDefault();
-                                this.props.changeState(true);
+                                this.props.registered(true);
                             }}
                         >
                             Sign In
