@@ -13,9 +13,15 @@ const emailRegex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
 
 export const fetchUsername = (username) => {
-    const data = api.get("/api/v1/username", { data: { username: "gowrishjb" } }).then((res) => res);
-    console.log(data);
+    const data = api.post("/api/v1/username", { data: { username: username } }).then((res) => res);
+    return data;
 };
+
+export const signin = (username, password) => {
+    const data = api.post("/api/v1/signin", { data: { username: username, password: password } }).then((res) => res);
+    return data;
+};
+export const signup = () => {};
 
 export function matchUsername(username) {
     return usernameRegex.test(username);

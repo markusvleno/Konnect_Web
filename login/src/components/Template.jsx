@@ -4,7 +4,7 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 
 class Template extends React.Component {
-    state = { registered: true };
+    state = { registered: false };
 
     setRegister = (value) => {
         this.setState({ registered: value });

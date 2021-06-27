@@ -9,16 +9,54 @@ class Signin extends React.Component {
         super(props);
         this.inusername = React.createRef();
         this.inpassword = React.createRef();
+        this.usernameError = React.createRef();
+        this.passwordError = React.createRef();
+        this.username = "";
+        this.password = "";
     }
 
-    fetchTO = null;
+    state = { validUsername: false, validPassword: false };
 
+    componentDidUpdate() {
+        if (this.inusername.current.value < 1) return;
+
+        if (this.state.validUsername) {
+            this.inusername.current.classList.add("valid");
+            this.inusername.current.classList.remove("not-valid");
+        } else {
+            this.inusername.current.classList.remove("valid");
+            this.inusername.current.classList.add("not-valid");
+        }
+    }
+
+    fetchTO = null; //timeout ref holder
     validateUsername = (username) => {
-        if (!matchUsername(username)) return;
+        if (username.length <= 1) {
+            this.setState({ validUsername: false });
+            this.usernameError.current.innerText = "";
+            this.inusername.current.classList.remove("valid");
+            this.inusername.current.classList.remove("not-valid");
+            this.inusername.current.classList.add("pad");
+            return;
+        }
+
+        if (!matchUsername(username)) {
+            this.usernameError.current.innerText = "minimum 5 character long";
+            this.setState({ validUsername: false });
+            return;
+        }
+
         clearTimeout(this.fetchTO);
         this.fetchTO = setTimeout(async () => {
-            await fetchUsername(username);
-        }, 2000);
+            const response = await fetchUsername(username);
+            if (response.data.available) {
+                this.setState({ validUsername: true });
+                this.usernameError.current.innerText = "";
+            } else {
+                this.usernameError.current.innerText = "Not registered!";
+                this.setState({ validUsername: false });
+            }
+        }, 700);
     };
 
     render() {
@@ -30,20 +68,31 @@ class Signin extends React.Component {
                         type="text"
                         className="pad"
                         placeholder="Username"
-                        ref={this.inpassword}
+                        ref={this.inusername}
+                        value={this.state.username}
                         autoComplete="on"
                         onChange={(event) => {
                             event.preventDefault();
-                            this.validateUsername(event.currentTarget.value);
+                            let username = event.currentTarget.value.trim();
+                            this.setState({ username: username });
+                            this.validateUsername(username);
                         }}
                     />
+                    <span className="inUsernameError" ref={this.usernameError}></span>
                     <input
                         type="password"
                         placeholder="Password"
                         ref={this.inpassword}
                         autoComplete="current-password"
                     />
-                    <button type="submit">
+                    <span className="inPasswordError" ref={this.passwordError}></span>
+                    <button
+                        type="submit"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            if (!this.state.validPassword || !this.state.validUsername) return;
+                        }}
+                    >
                         <span>Log in</span>
                         <div className="arrow arrow-right">
                             <img src={rightArrow} alt="arrow" />
