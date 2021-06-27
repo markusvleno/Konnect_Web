@@ -19,7 +19,7 @@ class SignUp extends React.Component {
     }
 
     state = {
-        notSelectUsername: true,
+        next: false,
         email: "",
         validEmail: false,
         password: "",
@@ -82,19 +82,20 @@ class SignUp extends React.Component {
             addNotValidBorder(this.upRePassword.current);
             changeErrorTextColor(this.upRePasswordError.current, false);
             this.upRePasswordError.current.innerText = "Password did not match!";
-            this.setState({ validPassport: false });
+            this.setState({ validRePassport: false });
         } else {
             addValidBorder(this.upRePassword.current);
             changeErrorTextColor(this.upRePasswordError.current, true);
             this.upRePasswordError.current.innerText = "";
-            this.setState({ validPassport: true });
+            this.setState({ validRePassport: false });
         }
+        console.log(this.state.validPassport);
     }
 
     renderValidUsername() {
         const username = this.state.username;
         if (!this.state.validEmail || !this.state.validPassport || !this.state.validRePassword) {
-            this.setState({ notSelectUsername: true, validUsername: false, username: "" });
+            this.setState({ next: false, validUsername: false, username: "" });
             return;
         }
     }
@@ -106,18 +107,18 @@ class SignUp extends React.Component {
         clearTimeout(this.emailTimeOut);
         this.emailTimeOut = setTimeout(() => {
             this.renderValidEmail();
-        }, 500);
+        }, 700);
     };
 
     passwordTimeOut;
     validatePassport = (event) => {
         event.preventDefault();
-        this.setState({ password: event.target.value.trim(), rePassword: "", validRePassword: false });
+        this.setState({ password: event.target.value.trim(), rePassword: "" });
         this.renderValidRePassword();
         clearTimeout(this.passwordTimeOut);
         this.passwordTimeOut = setTimeout(() => {
             this.renderValidPassword();
-        }, 500);
+        }, 700);
     };
 
     rePasswordTimeOut;
@@ -127,7 +128,7 @@ class SignUp extends React.Component {
         clearTimeout(this.rePasswordTimeOut);
         this.rePasswordTimeOut = setTimeout(() => {
             this.renderValidRePassword();
-        }, 500);
+        }, 700);
     };
 
     usernameTimeOut;
@@ -137,12 +138,13 @@ class SignUp extends React.Component {
         clearTimeout(this.usernameTimeOut);
         this.usernameTimeOut = setTimeout(() => {
             this.renderValidUsername();
-        }, 500);
+        }, 700);
     };
 
-    validCredential() {
-        return !this.state.validEmail || !this.state.validPassport || !this.state.validRePassword ? false : true;
-    }
+    onNext = (e) => {
+        e.preventDefault();
+        console.log(this.state.validRePassword);
+    };
 
     renderCredential = () => {
         return (
@@ -179,12 +181,7 @@ class SignUp extends React.Component {
                     onChange={this.validateRePassport}
                 />
                 <span className="upRePasswordError" ref={this.upRePasswordError}></span>
-                <button
-                    type="button"
-                    onClick={(e) => {
-                        e.preventDefault();
-                    }}
-                >
+                <button type="button" onClick={this.onNext}>
                     <span>Next</span>
                     <div className="arrow arrow-right">
                         <img src={arrow} alt="arrow" />
@@ -227,9 +224,7 @@ class SignUp extends React.Component {
     render() {
         return (
             <div className="signup container">
-                <form className="form">
-                    {this.state.notSelectUsername ? this.renderCredential() : this.selectUsername()}
-                </form>
+                <form className="form">{this.state.next ? this.selectUsername() : this.renderCredential()}</form>
                 <div className="controls justify-signup">
                     <div className="ctl-signup">
                         Already have an account?
