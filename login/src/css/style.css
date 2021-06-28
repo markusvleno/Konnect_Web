@@ -137,6 +137,27 @@
     justify-content: center;
 }
 
+.profile {
+    display: flex;
+    margin: 0px 10px 10px 10px;
+}
+
+.profile span {
+    display: flex;
+    align-items: center;
+    margin: 0px 20px;
+}
+
+.pic {
+    width: 70px;
+    height: 70px;
+    background-color: var(--base);
+    border-radius: 50%;
+    background-image: url("../images/upload.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 /*
 mobile view port
 */

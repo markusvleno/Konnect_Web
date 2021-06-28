@@ -16,14 +16,16 @@ class SignUp extends React.Component {
         this.upRePasswordError = React.createRef();
         this.upUsername = React.createRef();
         this.upUsernameError = React.createRef();
+
+        this.test = React.createRef();
     }
 
     state = {
-        next: false,
+        next: true,
         email: "",
         validEmail: false,
         password: "",
-        validPassport: false,
+        validPassword: false,
         rePassword: "",
         validRePassword: false,
         username: "",
@@ -56,17 +58,17 @@ class SignUp extends React.Component {
             addPadBorder(this.upPassword.current);
             changeErrorTextColor(this.upPasswordError.current, false);
             this.upPasswordError.current.innerText = "";
-            this.setState({ validPassport: false });
+            this.setState({ validPassword: false });
         } else if (password.length < 6) {
             addNotValidBorder(this.upPassword.current);
             changeErrorTextColor(this.upPasswordError.current, false);
             this.upPasswordError.current.innerText = "Minumum 6 character long";
-            this.setState({ validPassport: false });
+            this.setState({ validPassword: false });
         } else {
             addValidBorder(this.upPassword.current);
             changeErrorTextColor(this.upPasswordError.current, true);
             this.upPasswordError.current.innerText = "";
-            this.setState({ validPassport: true });
+            this.setState({ validPassword: true });
         }
     }
 
@@ -77,28 +79,56 @@ class SignUp extends React.Component {
             addPadBorder(this.upRePassword.current);
             changeErrorTextColor(this.upRePasswordError.current, false);
             this.upRePasswordError.current.innerText = "";
-            this.setState({ validRePassport: false });
+            this.setState({ validRePassword: false });
         } else if (password !== rePassword) {
             addNotValidBorder(this.upRePassword.current);
             changeErrorTextColor(this.upRePasswordError.current, false);
             this.upRePasswordError.current.innerText = "Password did not match!";
-            this.setState({ validRePassport: false });
+            this.setState({ validRePassword: false });
         } else {
             addValidBorder(this.upRePassword.current);
             changeErrorTextColor(this.upRePasswordError.current, true);
             this.upRePasswordError.current.innerText = "";
-            this.setState({ validRePassport: false });
+            this.setState({ validRePassword: true });
         }
-        console.log(this.state.validPassport);
     }
 
-    renderValidUsername() {
+    renderValidUsername = async () => {
         const username = this.state.username;
-        if (!this.state.validEmail || !this.state.validPassport || !this.state.validRePassword) {
-            this.setState({ next: false, validUsername: false, username: "" });
-            return;
+
+        if (this.state.username < 1) {
+            addPadBorder(this.upUsername.current);
+            changeErrorTextColor(this.upUsernameError.current, false);
+            this.upUsernameError.current.innerText = "";
+            this.setState({ validUsername: false, username: "" });
+        } else if (!matchUsername(this.state.username)) {
+            addNotValidBorder(this.upUsername.current);
+            changeErrorTextColor(this.upUsernameError.current, false);
+            this.upUsernameError.current.innerText = "Not a valid username!";
+            this.setState({ validUsername: false });
+        } else {
+            try {
+                const data = await fetchUsername(this.state.username).then((res) => res.data);
+                if (data.available) {
+                    addValidBorder(this.upUsername.current);
+                    changeErrorTextColor(this.upUsernameError.current, true);
+                    this.upUsernameError.current.innerText = "";
+                    this.setState({ validUsername: true });
+                } else {
+                    addNotValidBorder(this.upUsername.current);
+                    changeErrorTextColor(this.upUsernameError.current, false);
+                    this.upUsernameError.current.innerText = "Username name is not available!";
+                    this.setState({ validUsername: false });
+                }
+            } catch (error) {
+                console.log(error);
+                addNotValidBorder(this.upUsername.current);
+                changeErrorTextColor(this.upUsernameError.current, false);
+                this.upUsernameError.current.innerText = "Please try again later!";
+                this.setState({ validUsername: false });
+            }
         }
-    }
+    };
 
     emailTimeOut;
     validateEmail = (event) => {
@@ -111,7 +141,7 @@ class SignUp extends React.Component {
     };
 
     passwordTimeOut;
-    validatePassport = (event) => {
+    validatePassword = (event) => {
         event.preventDefault();
         this.setState({ password: event.target.value.trim(), rePassword: "" });
         this.renderValidRePassword();
@@ -122,7 +152,7 @@ class SignUp extends React.Component {
     };
 
     rePasswordTimeOut;
-    validateRePassport = (event) => {
+    validateRePassword = (event) => {
         event.preventDefault();
         this.setState({ rePassword: event.target.value.trim() });
         clearTimeout(this.rePasswordTimeOut);
@@ -143,7 +173,33 @@ class SignUp extends React.Component {
 
     onNext = (e) => {
         e.preventDefault();
-        console.log(this.state.validRePassword);
+        if (!this.state.validEmail) {
+            addNotValidBorder(this.upEmail.current);
+            changeErrorTextColor(this.upEmailError.current, false);
+            this.upEmailError.current.innerText = "Not a valid email!";
+        } else if (!this.state.validPassword) {
+            addNotValidBorder(this.upPassword.current);
+            changeErrorTextColor(this.upPasswordError.current, false);
+            this.upPasswordError.current.innerText = "Not a valid password!";
+        } else if (!this.state.rePassword) {
+            addNotValidBorder(this.upRePassword.current);
+            changeErrorTextColor(this.upRePasswordError.current, false);
+            this.upRePasswordError.current.innerText = "Password did not match!";
+        } else {
+            this.setState({ next: true });
+        }
+    };
+
+    onBack = (e) => {
+        e.preventDefault();
+        addPadBorder(this.upUsername.current);
+        changeErrorTextColor(this.upUsernameError.current, false);
+        this.upUsernameError.current.innerText = "";
+        this.setState({ username: "", validUsername: false, next: false });
+    };
+
+    selectProfile = async (e) => {
+        e.preventDefault();
     };
 
     renderCredential = () => {
@@ -168,7 +224,7 @@ class SignUp extends React.Component {
                     autoComplete="off"
                     placeholder="Password"
                     ref={this.upPassword}
-                    onChange={this.validatePassport}
+                    onChange={this.validatePassword}
                 />
                 <span className="upPasswordError" ref={this.upPasswordError}></span>
                 <input
@@ -178,7 +234,7 @@ class SignUp extends React.Component {
                     autoComplete="off"
                     placeholder="Confirm Password"
                     ref={this.upRePassword}
-                    onChange={this.validateRePassport}
+                    onChange={this.validateRePassword}
                 />
                 <span className="upRePasswordError" ref={this.upRePasswordError}></span>
                 <button type="button" onClick={this.onNext}>
@@ -201,11 +257,16 @@ class SignUp extends React.Component {
                     value={this.state.username}
                     placeholder="Username"
                     autoComplete="off"
+                    autoCorrect="false"
                     ref={this.upUsername}
                     onChange={this.validateUsername}
                 />
-                <span className="upUsernameError"></span>
-                <button type="button" onClick={this.click}>
+                <span className="upUsernameError" ref={this.upUsernameError}></span>
+                <div className="profile">
+                    <div className="pic" onClick={this.selectProfile}></div>
+                    <span>Upload a profile picture</span>
+                </div>
+                <button type="button" onClick={this.onBack}>
                     <span>Back</span>
                     <div className="arrow arrow-left">
                         <img src={arrow} alt="arrow" style={{ transform: "rotate(180deg)" }} />
