@@ -16,8 +16,6 @@ class SignUp extends React.Component {
         this.upRePasswordError = React.createRef();
         this.upUsername = React.createRef();
         this.upUsernameError = React.createRef();
-
-        this.test = React.createRef();
     }
 
     state = {
@@ -30,6 +28,8 @@ class SignUp extends React.Component {
         validRePassword: false,
         username: "",
         validUsername: false,
+        profile: "",
+        validProfile: false,
     };
 
     renderValidEmail() {
@@ -96,7 +96,7 @@ class SignUp extends React.Component {
     renderValidUsername = async () => {
         const username = this.state.username;
 
-        if (this.state.username < 1) {
+        if (username < 1) {
             addPadBorder(this.upUsername.current);
             changeErrorTextColor(this.upUsernameError.current, false);
             this.upUsernameError.current.innerText = "";
@@ -108,7 +108,7 @@ class SignUp extends React.Component {
             this.setState({ validUsername: false });
         } else {
             try {
-                const data = await fetchUsername(this.state.username).then((res) => res.data);
+                const data = await fetchUsername(username).then((res) => res.data);
                 if (data.available) {
                     addValidBorder(this.upUsername.current);
                     changeErrorTextColor(this.upUsernameError.current, true);
@@ -122,6 +122,7 @@ class SignUp extends React.Component {
                 }
             } catch (error) {
                 console.log(error);
+            } finally {
                 addNotValidBorder(this.upUsername.current);
                 changeErrorTextColor(this.upUsernameError.current, false);
                 this.upUsernameError.current.innerText = "Please try again later!";
@@ -199,7 +200,27 @@ class SignUp extends React.Component {
     };
 
     selectProfile = async (e) => {
-        e.preventDefault();
+        const file = e.target.files[0];
+        try {
+            const Reader = new FileReader();
+            Reader.readAsDataURL(file);
+            Reader.onload = () => {
+                const image = new Image();
+                image.src = Reader.result;
+                image.onload = () => {
+                    if (image.height <= 512 && image.width <= 512) {
+                        this.setState({ image: Reader.result, validProfile: true });
+                    } else {
+                        alert("Please select below 512x512 pixels!");
+                        this.setState({ image: "", validProfile: false });
+                    }
+                };
+            };
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.setState({ image: "", validProfile: false });
+        }
     };
 
     renderCredential = () => {
@@ -263,7 +284,7 @@ class SignUp extends React.Component {
                 />
                 <span className="upUsernameError" ref={this.upUsernameError}></span>
                 <div className="profile">
-                    <div className="pic" onClick={this.selectProfile}></div>
+                    <input type="file" className="pic" onChange={this.selectProfile} accept="image/png, image/jpeg" />
                     <span>Upload a profile picture</span>
                 </div>
                 <button type="button" onClick={this.onBack}>

@@ -139,7 +139,6 @@
 
 .profile {
     display: flex;
-    margin: 0px 10px 10px 10px;
 }
 
 .profile span {
@@ -149,13 +148,6 @@
 }
 
 .pic {
-    width: 70px;
-    height: 70px;
-    background-color: var(--base);
-    border-radius: 50%;
-    background-image: url("../images/upload.svg");
-    background-repeat: no-repeat;
-    background-position: center center;
 }
 
 /*
