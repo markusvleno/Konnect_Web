@@ -49,7 +49,9 @@
     border: 2px solid rgb(0, 187, 0);
 }
 
-.option input {
+.option input[type="email"],
+input[type="password"],
+input[type="text"] {
     background-color: var(--base);
     height: 30px;
     max-width: inherit;
@@ -137,19 +139,6 @@
     justify-content: center;
 }
 
-.profile {
-    display: flex;
-}
-
-.profile span {
-    display: flex;
-    align-items: center;
-    margin: 0px 20px;
-}
-
-.pic {
-}
-
 /*
 mobile view port
 */
@@ -186,4 +175,7 @@ button {
     font: inherit;
     cursor: pointer;
     outline: inherit;
+}
+input[type="file"] {
+    color: transparent;
 }

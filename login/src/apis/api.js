@@ -21,7 +21,7 @@ export const signin = (username, password) => {
     const data = api.post("/api/v1/signin", { data: { username: username, password: password } }).then((res) => res);
     return data;
 };
-export const signup = () => {};
+export const signup = (email, password, username) => {};
 
 export function matchUsername(username) {
     return usernameRegex.test(username);

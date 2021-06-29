@@ -28,8 +28,10 @@ class SignUp extends React.Component {
         validRePassword: false,
         username: "",
         validUsername: false,
-        profile: "",
-        validProfile: false,
+        fName: "",
+        validFName: false,
+        lName: "",
+        validLName: false,
     };
 
     renderValidEmail() {
@@ -122,7 +124,6 @@ class SignUp extends React.Component {
                 }
             } catch (error) {
                 console.log(error);
-            } finally {
                 addNotValidBorder(this.upUsername.current);
                 changeErrorTextColor(this.upUsernameError.current, false);
                 this.upUsernameError.current.innerText = "Please try again later!";
@@ -169,7 +170,21 @@ class SignUp extends React.Component {
         clearTimeout(this.usernameTimeOut);
         this.usernameTimeOut = setTimeout(() => {
             this.renderValidUsername();
-        }, 700);
+        }, 500);
+    };
+
+    nameTimeOut;
+    validateFName = (ref) => {
+        ref.preventDefault();
+        const name = ref.target.value;
+        this.setState({ fName: ref.target.value.trim() });
+        console.log(name);
+    };
+    validateLName = (ref) => {
+        ref.preventDefault();
+        const name = ref.target.value;
+        this.setState({ lName: ref.target.value.trim() });
+        console.log(name);
     };
 
     onNext = (e) => {
@@ -197,30 +212,6 @@ class SignUp extends React.Component {
         changeErrorTextColor(this.upUsernameError.current, false);
         this.upUsernameError.current.innerText = "";
         this.setState({ username: "", validUsername: false, next: false });
-    };
-
-    selectProfile = async (e) => {
-        const file = e.target.files[0];
-        try {
-            const Reader = new FileReader();
-            Reader.readAsDataURL(file);
-            Reader.onload = () => {
-                const image = new Image();
-                image.src = Reader.result;
-                image.onload = () => {
-                    if (image.height <= 512 && image.width <= 512) {
-                        this.setState({ image: Reader.result, validProfile: true });
-                    } else {
-                        alert("Please select below 512x512 pixels!");
-                        this.setState({ image: "", validProfile: false });
-                    }
-                };
-            };
-        } catch (error) {
-            console.log(error);
-        } finally {
-            this.setState({ image: "", validProfile: false });
-        }
     };
 
     renderCredential = () => {
@@ -268,7 +259,7 @@ class SignUp extends React.Component {
         );
     };
 
-    selectUsername = () => {
+    renderUserDetail = () => {
         return (
             <div className="option">
                 <span className="select">Select username.</span>
@@ -278,15 +269,32 @@ class SignUp extends React.Component {
                     value={this.state.username}
                     placeholder="Username"
                     autoComplete="off"
-                    autoCorrect="false"
+                    spellCheck="false"
                     ref={this.upUsername}
                     onChange={this.validateUsername}
+                    required={true}
                 />
                 <span className="upUsernameError" ref={this.upUsernameError}></span>
-                <div className="profile">
-                    <input type="file" className="pic" onChange={this.selectProfile} accept="image/png, image/jpeg" />
-                    <span>Upload a profile picture</span>
-                </div>
+                <input
+                    type="text"
+                    value={this.state.fName}
+                    placeholder="First Name"
+                    autoComplete="off"
+                    spellCheck="false"
+                    style={{ marginBottom: "20px" }}
+                    onChange={this.validateFName}
+                    required={true}
+                />
+                <input
+                    type="text"
+                    value={this.state.lName}
+                    placeholder="Last Name"
+                    autoComplete="off"
+                    spellCheck="false"
+                    style={{ marginBottom: "20px" }}
+                    onChange={this.validateLName}
+                    required={true}
+                />
                 <button type="button" onClick={this.onBack}>
                     <span>Back</span>
                     <div className="arrow arrow-left">
@@ -306,7 +314,7 @@ class SignUp extends React.Component {
     render() {
         return (
             <div className="signup container">
-                <form className="form">{this.state.next ? this.selectUsername() : this.renderCredential()}</form>
+                <form className="form">{this.state.next ? this.renderUserDetail() : this.renderCredential()}</form>
                 <div className="controls justify-signup">
                     <div className="ctl-signup">
                         Already have an account?
