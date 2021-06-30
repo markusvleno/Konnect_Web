@@ -61,12 +61,7 @@ input[type="text"] {
     margin: 5px 0px 0px 0px;
 }
 
-.inUsernameError,
-.inPasswordError,
-.upUsernameError,
-.upEmailError,
-.upPasswordError,
-.upRePasswordError {
+.Error {
     font-size: 0.8rem;
     text-align: center;
     width: 100%;

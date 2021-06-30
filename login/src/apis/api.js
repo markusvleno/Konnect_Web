@@ -18,10 +18,13 @@ export const fetchUsername = (username) => {
 };
 
 export const signin = (username, password) => {
-    const data = api.post("/api/v1/signin", { data: { username: username, password: password } }).then((res) => res);
-    return data;
+    const res = api.post("/api/v1/signin", { data: { username, password } }).then((res) => res);
+    return res;
 };
-export const signup = (email, password, username) => {};
+export const signup = (email, password, username, name) => {
+    const res = api.post("/api/v1/signup", { data: { email, password, username, name } }).then((res) => res);
+    return res;
+};
 
 export function matchUsername(username) {
     return usernameRegex.test(username);

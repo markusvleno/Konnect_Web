@@ -25,3 +25,20 @@ export const changeErrorTextColor = (ref, value = false) => {
         ref.classList.remove("greenText");
     }
 };
+
+export const errorRender = (refInput, borderColor = "pad", refError, errorMessage = "", textColor = false) => {
+    switch (borderColor) {
+        case "valid":
+            addValidBorder(refInput);
+            break;
+        case "not-valid":
+            addNotValidBorder(refInput);
+            break;
+        case "pad":
+        default:
+            addPadBorder(refInput);
+    }
+
+    changeErrorTextColor(refError, textColor);
+    refError.innerText = errorMessage;
+};
