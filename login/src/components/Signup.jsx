@@ -249,7 +249,7 @@ class SignUp extends React.Component {
             await alert("Please enter valid details!");
         } else {
             const res = await signup(this.state.email, this.state.password, this.state.username, this.state.name);
-            if (res.status === 200) {
+            if (res.data.code === 200) {
                 this.setState({ next: false });
                 this.props.registered(true);
             } else {

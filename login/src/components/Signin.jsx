@@ -133,7 +133,8 @@ class Signin extends React.Component {
         const password = this.state.password;
 
         const res = await signin(username, password);
-        if (res.status !== 200) {
+        console.log(res);
+        if (res.data.code !== 200) {
             errorRender(this.inPassword.current, null, this.inPasswordError.current, res.data.message, false);
         }
     };
@@ -175,7 +176,15 @@ class Signin extends React.Component {
                 <div className="controls justify-signin">
                     <div className="ctl-signup">
                         Not a user?
-                        <button type="button">Sign up</button>
+                        <button
+                            type="button"
+                            onClick={(event) => {
+                                event.preventDefault();
+                                this.props.registered(false);
+                            }}
+                        >
+                            Sign up
+                        </button>
                     </div>
                     <button type="button" className="ctl-forgot">
                         Forgot password?
