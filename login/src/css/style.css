@@ -9,7 +9,7 @@
     min-height: 10vh;
     max-height: 80vh;
     padding: 30px;
-    opacity: 0%;
+    opacity: 0;
     animation: entry 400ms ease-in 200ms forwards;
 }
 
@@ -21,7 +21,6 @@
     right: 0;
     top: 50%;
     z-index: 10;
-    opacity: 100%;
     transform: translateY(-50%);
 }
 
@@ -166,10 +165,10 @@ mobile view port
 
 @keyframes entry {
     from {
-        opacity: 0%;
+        opacity: 0;
     }
     to {
-        opacity: 100%;
+        opacity: 99;
     }
 }
 
