@@ -133,9 +133,10 @@ class Signin extends React.Component {
         const password = this.state.password;
 
         const res = await signin(username, password);
-        console.log(res);
-        if (res.data.code !== 200) {
-            errorRender(this.inPassword.current, null, this.inPasswordError.current, res.data.message, false);
+        if (res.data.code === 301) {
+            window.location.pathname = res.data.redirect;
+        } else {
+            errorRender(this.inPassword.current, "not-valid", this.inPasswordError.current, res.data.message, false);
         }
     };
 
@@ -161,7 +162,7 @@ class Signin extends React.Component {
                         className="pad"
                         value={this.state.password}
                         autoComplete="off"
-                        placeholder="Confirm Password"
+                        placeholder="Password"
                         ref={this.inPassword}
                         onChange={this.validatePassword}
                     />
