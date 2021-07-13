@@ -10,6 +10,11 @@
     padding: 4vh 2vw;
 }
 
+.btn-back {
+    display: none;
+    grid-area: b;
+}
+
 .template-logo {
     grid-area: l;
 }
@@ -40,6 +45,12 @@ mobile view port
         display: grid;
         padding: 25px 30px;
         grid-template-columns: 1fr 3fr;
+    }
+
+    .btn-back {
+        display: flex;
+        width: 70px;
+        height: 70px;
     }
 
     .m-menu-area {

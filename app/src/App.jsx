@@ -12,6 +12,7 @@ class App extends React.Component {
         return (
             <div className="base">
                 <div className="template m-menu-area">
+                    <div className="btn-back"></div>
                     <div className="template-logo">
                         <Logo />
                     </div>

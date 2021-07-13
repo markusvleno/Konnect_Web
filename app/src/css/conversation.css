@@ -4,12 +4,8 @@
     background-color: var(--back);
 }
 
-.btn-back {
-    display: none;
-}
-
-.template-converstion .user-detail {
-    display: none;
+.template-users {
+    grid-area: u;
 }
 
 /*
@@ -20,9 +16,9 @@ mobile view port
     .template-converstion {
         background-color: var(--base);
         position: absolute;
-        top: 0;
         left: 0;
-        height: 100%;
+        bottom: 0;
+        height: 85vh;
         width: 100%;
         margin: unset;
         display: grid;
@@ -34,11 +30,6 @@ mobile view port
             "c c";
 
         align-items: center;
-    }
-    .template-converstion .user-detail {
-        display: flex;
-        grid-area: u;
-        margin-right: 20px;
     }
 
     .btn-back {
