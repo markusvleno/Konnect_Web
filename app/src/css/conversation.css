@@ -1,56 +1,6 @@
-.conversation {
-    height: 100%;
-    border-radius: 30px;
-    background-color: var(--back);
-}
-
-.template-users {
-    grid-area: u;
-}
-
 /*
 mobile view port
 */
 
 @media screen and (max-width: 900px) {
-    .template-converstion {
-        background-color: var(--base);
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 85vh;
-        width: 100%;
-        margin: unset;
-        display: grid;
-
-        grid-template-columns: 70px 1fr;
-        grid-template-rows: 70px 1fr;
-        grid-template-areas:
-            "b u"
-            "c c";
-
-        align-items: center;
-    }
-
-    .btn-back {
-        grid-area: b;
-        display: flex;
-        min-width: 65px;
-        min-height: 65px;
-        max-width: 65px;
-        max-height: 65px;
-        border-radius: 0px 50px 50px 0px;
-        background-color: var(--back);
-        background-image: url("../images/control_arrow.svg");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 45px;
-    }
-
-    .conversation {
-        grid-area: c;
-        height: 85vh;
-        width: 90vw;
-        margin: auto;
-    }
 }

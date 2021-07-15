@@ -33,7 +33,6 @@
 
 .template-converstion {
     grid-area: c;
-    margin-left: 20px;
 }
 
 /*
@@ -45,12 +44,6 @@ mobile view port
         display: grid;
         padding: 25px 30px;
         grid-template-columns: 1fr 3fr;
-    }
-
-    .btn-back {
-        display: flex;
-        width: 70px;
-        height: 70px;
     }
 
     .m-menu-area {
