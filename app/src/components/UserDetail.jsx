@@ -1,20 +1,17 @@
 import "../css/userDetail.css";
 import React from "react";
-import logo from "../images/logo.svg";
-class UserDetail extends React.Component {
-    constructor() {
-        super();
-        this.userProfile = logo;
-        this.userName = "Markus Vleno";
-    }
-    render() {
-        return (
-            <div className="user-detail">
-                <img src={this.userProfile} alt=" " />
-                <span>{this.userName}</span>
-            </div>
-        );
-    }
-}
+import { useSelector } from "react-redux";
+
+const UserDetail = () => {
+    const logo = useSelector((state) => state.user.logo);
+    const username = useSelector((state) => state.user.name);
+
+    return (
+        <div className="user-detail">
+            <img src={logo} alt=" " />
+            <span>{username}</span>
+        </div>
+    );
+};
 
 export default UserDetail;
