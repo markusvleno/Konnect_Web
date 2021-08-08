@@ -5,18 +5,25 @@ import { createSlice } from "@reduxjs/toolkit";
 export const user = createSlice({
     name: "user",
     initialState: {
+        username: "brah",
         name: "brah",
-        logo: logo,
+        profilePicture: logo,
         conversation: [
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
-            { username: "test", Name: "test", chatLog: [], lastMsg: "08:20" },
+            {
+                username: "test",
+                name: "test",
+                profilePicture: logo,
+                pub: "meawod",
+                chatLog: [
+                    { data: "brah", type: "text/msg", date: Date.now(), origin: true },
+                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
+                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
+                    { data: "brah", type: "text/msg", date: Date.now(), origin: true },
+                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
+                    { data: "brah", type: "text/msg", date: Date.now(), origin: true },
+                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
+                ],
+            },
         ],
         friendList: [
             { username: "username" },
