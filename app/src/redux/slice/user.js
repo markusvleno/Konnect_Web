@@ -5,38 +5,41 @@ import { createSlice } from "@reduxjs/toolkit";
 export const user = createSlice({
     name: "user",
     initialState: {
-        username: "brah",
-        name: "brah",
+        username: "gowrishjb",
+        name: "Gowrish",
         profilePicture: logo,
-        conversation: [
+        keys: {
+            public: "90-un230v1903109090v-214i0-",
+            "private-lock": "awdasdwrr3vrwerbw3",
+            private: "nwowidnoawd19098v190421--1",
+        },
+        chatList: [
             {
-                username: "test",
-                name: "test",
+                username: "markus1",
+                name: "Markus",
                 profilePicture: logo,
-                pub: "meawod",
-                chatLog: [
-                    { data: "brah", type: "text/msg", date: Date.now(), origin: true },
-                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
-                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
-                    { data: "brah", type: "text/msg", date: Date.now(), origin: true },
-                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
-                    { data: "brah", type: "text/msg", date: Date.now(), origin: true },
-                    { data: "brah", type: "text/msg", date: Date.now(), origin: false },
+                publickey: "awdasdawwb1qweb",
+                conversation: [
+                    { data: "hello", type: "text/msg", date: Date.now(), origin: true },
+                    { data: "hi", type: "text/msg", date: Date.now(), origin: false },
+                ],
+            },
+            {
+                username: "markus2",
+                name: "Markus",
+                profilePicture: logo,
+                publickey: "awdasdawwb1qweb",
+                conversation: [
+                    { data: "hello", type: "text/msg", date: Date.now(), origin: true },
+                    { data: "hi", type: "text/msg", date: Date.now(), origin: false },
                 ],
             },
         ],
-        friendList: [
-            { username: "username" },
-            { username: "username" },
-            { username: "username" },
-            { username: "username" },
-            { username: "username" },
-            { username: "username" },
-            { username: "username" },
-        ],
     },
     reducers: {
-        setUser: (state) => {},
+        setUser: (state, action) => {
+            state = action.payload;
+        },
     },
 });
 
