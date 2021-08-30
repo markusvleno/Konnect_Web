@@ -10,7 +10,7 @@ export const user = createSlice({
         profilePicture: logo,
         keys: {
             public: "90-un230v1903109090v-214i0-",
-            "private-lock": "awdasdwrr3vrwerbw3",
+            privateLock: "awdasdwrr3vrwerbw3",
             private: "nwowidnoawd19098v190421--1",
         },
         chatList: [
@@ -18,7 +18,6 @@ export const user = createSlice({
                 username: "markus1",
                 name: "Markus",
                 profilePicture: logo,
-                publickey: "awdasdawwb1qweb",
                 conversation: [
                     { data: "hello", type: "text/msg", date: Date.now(), origin: true },
                     { data: "hi", type: "text/msg", date: Date.now(), origin: false },
@@ -28,7 +27,6 @@ export const user = createSlice({
                 username: "markus2",
                 name: "Markus",
                 profilePicture: logo,
-                publickey: "awdasdawwb1qweb",
                 conversation: [
                     { data: "hello", type: "text/msg", date: Date.now(), origin: true },
                     { data: "hi", type: "text/msg", date: Date.now(), origin: false },
@@ -37,8 +35,21 @@ export const user = createSlice({
         ],
     },
     reducers: {
-        setUser: (state, action) => {
+        init: (state, action) => {
             state = action.payload;
+        },
+        updateName: (state, action) => {
+            state.name = action.payload;
+        },
+        updateProfilePicture: (state, action) => {
+            state.profilePicture = action.payload;
+        },
+        updateKeys: (state, action) => {
+            state.keys.public = action.payload.public;
+            state.keys.private = action.payload.private;
+        },
+        newChat: (state, action) => {
+            state.chatList = new Array(...state.chatList, action.payload);
         },
     },
 });
