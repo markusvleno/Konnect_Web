@@ -5,9 +5,9 @@ import { createSlice } from "@reduxjs/toolkit";
 export const user = createSlice({
     name: "user",
     initialState: {
-        username: null,
-        name: null,
-        profilePicture: null,
+        username: "Undefined",
+        name: "Undefined",
+        profilePicture: "http://localhost:5000/static/assets/images/profile.png",
         conversation: [],
     },
     reducers: {
