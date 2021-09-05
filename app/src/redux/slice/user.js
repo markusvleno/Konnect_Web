@@ -1,4 +1,4 @@
-import logo from "../../images/logo.svg";
+// import logo from "../../images/logo.svg";
 
 import { createSlice } from "@reduxjs/toolkit";
 
@@ -7,11 +7,11 @@ export const user = createSlice({
     initialState: {
         username: "Undefined",
         name: "Undefined",
-        profilePicture: "http://localhost:5000/static/assets/images/profile.png",
+        profilePicture: "/static/assets/images/profile.svg",
         conversation: [],
     },
     reducers: {
-        init: (state, action) => {
+        init: async (state, action) => {
             state = action.payload;
         },
         updateName: (state, action) => {
