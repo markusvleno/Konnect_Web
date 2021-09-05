@@ -1,6 +1,6 @@
 import "../css/users.css";
 import React from "react";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Users = () => {
     return (

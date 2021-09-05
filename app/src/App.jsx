@@ -1,14 +1,25 @@
 import "./css/base.css";
 import "./css/template.css";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { init } from "./redux/slice/user";
 
 import Logo from "./components/Logo";
 import Option from "./components/Option";
 import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
+import { useState } from "react";
 
 const App = (props) => {
+    const dispatch = useDispatch();
+    // eslint - disable - next - line;
+    const [config] = useState(async () => {
+        const response = await fetch("/test").then((res) => res.json());
+        dispatch(init(response.user));
+        return response;
+    }, []);
+
     return (
         <div className="base">
             <div className="template m-menu-area">
