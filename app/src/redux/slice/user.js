@@ -96,6 +96,14 @@ const dumy = [
         },
         chatID: 1001,
     },
+    {
+        username: "lol",
+        name: "lol",
+        key: {
+            public: null,
+        },
+        chatID: 1002,
+    },
 ];
 
 export const user = createSlice({

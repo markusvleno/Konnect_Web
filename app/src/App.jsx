@@ -9,16 +9,14 @@ import Option from "./components/Option";
 import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
-import { useState } from "react";
+import { useEffect } from "react";
 
 const App = (props) => {
     const dispatch = useDispatch();
-    // eslint - disable - next - line;
-    const [config] = useState(async () => {
-        const response = await fetch("/test").then((res) => res.json());
+    useEffect(() => {
+        const response = fetch("/test").then((res) => res.json());
         dispatch(init(response.user));
-        return response;
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className="base">
