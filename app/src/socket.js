@@ -1,17 +1,18 @@
-import { Manager } from "socket.io-client";
-
-const socket = new Manager("http://localhost:5000", {
-    path: "/socket",
-    autoConnect: true,
-    reconnectionDelay: 1000,
-    withCredentials: true,
-    forceNew: false,
-    reconnectionAttempts: 3,
-});
+import { io } from "socket.io-client";
 
 class MessageHandler {
     constructor() {
-        this.socket = socket.socket("/chat");
+        this.socket = new io("http://localhost:5000/chat", {
+            path: "/sockets",
+            autoConnect: true,
+            reconnectionDelay: 1000,
+            withCredentials: true,
+            forceNew: false,
+            reconnectionAttempts: 3,
+            extraHeaders: {
+                "Access-Control-Allow-Origin": "*",
+            },
+        });
 
         console.log(this.socket);
 
