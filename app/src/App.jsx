@@ -9,18 +9,28 @@ import Option from "./components/Option";
 import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
-import MessageHandler from "./socket";
+import { MessageHandler } from "./socket";
+
+import { v4 as uuid } from "uuid";
+
+let messageSocket = null;
 
 class App extends React.PureComponent {
     constructor(props) {
         super(props);
-        new MessageHandler();
-        // this.socket = new io("http://localhost:5000", { path: "/chat", forceNew: false });
+        if (!messageSocket) messageSocket = new MessageHandler();
 
-        // this.socket.emit("hello");
-        // this.socket.on("hi", () => {
-        //     console.log("rec");
-        // });
+        messageSocket.sendMessage(
+            {
+                ID: uuid(),
+                data: "asdawdaD",
+                type: "awdadsawd",
+                time: null,
+            },
+            "ajwbdjawd",
+            "awdabwnda",
+        );
+
         this.init = this.props.init.bind(this);
     }
 
@@ -59,10 +69,6 @@ const mapStateToProps = (state) => ({
     user: state.user,
 });
 
-const mapDispatchToProps = {
-    init,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, { init })(App);
 
 // export default App;

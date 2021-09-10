@@ -2,107 +2,38 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-// dummy conversation data:
-const temp = [
+let temp = [
     {
-        userID: 1001,
-        chat: [
+        username: "brah1",
+        chatID: 123,
+        chatLog: [
             {
-                id: "12345",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
-            },
-            {
-                id: "12345",
-                origin: false,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
-            },
-            {
-                id: "23563",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
-            },
-            {
-                id: "12464",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
-            },
-            {
-                id: "23452",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
+                data: "sup homie",
+                messageID: 100,
+                time: Date.now(),
             },
         ],
     },
     {
-        userID: 1002,
-        chat: [
+        username: "brah2",
+        chatID: 124,
+        chatLog: [
             {
-                id: "12345",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
+                data: "lol",
+                messageID: 101,
+                time: Date.now(),
             },
             {
-                id: "12345",
-                origin: false,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
+                data: "sup homie",
+                messageID: 102,
+                time: Date.now(),
             },
             {
-                id: "23563",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
-            },
-            {
-                id: "12464",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
-            },
-            {
-                id: "23452",
-                origin: true,
-                message: "Hello!",
-                date: "yesterday",
-                type: "msg/text",
+                data: "sup homie",
+                messageID: 103,
+                time: Date.now(),
             },
         ],
-    },
-];
-
-// dummy friends data:
-const dumy = [
-    {
-        username: "markus",
-        name: "markus",
-        key: {
-            public: null,
-        },
-        chatID: 1001,
-    },
-    {
-        username: "lol",
-        name: "lol",
-        key: {
-            public: null,
-        },
-        chatID: 1002,
     },
 ];
 
