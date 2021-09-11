@@ -64,9 +64,9 @@ export const user = createSlice({
             state.conversation = new Array(...state.conversation, action.payload);
         },
         deleteConversation: (state, action) => {
-            const conversation = action.payload;
+            const { username } = action.payload;
             const newState = state.conversation.forEach((conv) => {
-                if (conv.username !== conversation.username);
+                if (conv.username !== username);
                 return conv;
             });
 

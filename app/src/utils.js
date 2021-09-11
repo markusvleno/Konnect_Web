@@ -5,19 +5,15 @@ export const timeCalcl = (ms) => {
 
     if (ms < new Date(0)) return " ";
 
-    let inputTime = new Date(ms);
-    let currentTime = new Date(Date.now());
+    const currentTime = new Date(Date.now());
+    const inputTime = new Date(ms);
 
-    console.log(inputTime.getTime());
-    console.log(currentTime.getTime());
-    let gapTime = new Date(currentTime.getTime() - inputTime.getTime());
-    console.log(gapTime.getTime());
-    let temp = new Date(null, null, null, null, null, 30, null);
+    let inputInHr = inputTime.getHours() > 12 ? inputTime.getHours() - 12 : inputTime.getHours();
+    let inputInM = inputTime.getMinutes();
+    let inputInS = inputTime.getSeconds();
 
-    console.log(temp.getTime());
+    let gapTime = inputTime.getTime() - currentTime.getTime();
 
-    if (gapTime.getTime() <= 5) return "now";
-    else if (gapTime.getTime() <= _24hr) return gapTime.getHours() + " hr ago";
-    else if (gapTime.getTime() <= _24hr * 2) return "Yesterday " + gapTime.toTimeString().split(" ", 1);
-    else return gapTime.toLocaleDateString();
+    if (gapTime < _24hr) return inputTime.toLocaleTimeString().slice(0, -3);
+    else return inputTime.toLocaleDateString();
 };
