@@ -9,34 +9,42 @@ import Option from "./components/Option";
 import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
-import { MessageHandler } from "./socket";
 
 import { v4 as uuid } from "uuid";
+import util from "./signal/helpers";
+import { createSignalProtocolManager } from './signal/SignalGateway'
 
 let messageSocket = null;
 
 class App extends React.PureComponent {
-    constructor(props) {
+    async constructor(props) {
         super(props);
-        if (!messageSocket) messageSocket = new MessageHandler();
-
-        messageSocket.sendMessage(
-            {
-                ID: uuid(),
-                data: "asdawdaD",
-                type: "awdadsawd",
-                time: null,
-            },
-            "ajwbdjawd",
-            "awdabwnda",
-        );
-
+        this.keyHelper = window.libsignal.KeyHelper;
         this.init = this.props.init.bind(this);
+        console.log(this.keyHelper);
     }
 
     async componentDidMount() {
-        const response = await fetch("/test").then((res) => res.json());
-        this.init(response.user);
+        // const response = await fetch("/user").then((res) => res.json());
+        const response = {
+            user: {
+                username: "Markus",
+                name: "Makrus",
+                profilePicture: "/static/assets/images/profile.svg",
+                conversation: [],
+            },
+        };
+
+        var regID = this.keyHelper.generateRegistrationId();
+        // this.keyHelper.generateIdentityKeyPair().then((identityKeyPair) => {
+        //     console.log(util.arrayBufferToBase64(identityKeyPair.pubKey));
+        //     console.log(util.arrayBufferToBase64(identityKeyPair.privKey));
+        // });
+        this.keyHelper.generatePreKey(101).then(function (prekey) {
+            console.log(util.arrayBufferToBase64(prekey.keyPair.pubKey));
+            console.log(util.arrayBufferToBase64(prekey.keyPair.privKey));
+        });
+        console.log(regID);
     }
 
     render() {
@@ -57,7 +65,7 @@ class App extends React.PureComponent {
                         <Users />
                     </div>
                     <div className="template-converstion">
-                        <Conversation />
+                        {this.props.UI.convWindow.isSelected ? <Conversation /> : <></>}
                     </div>
                 </div>
             </div>
@@ -67,8 +75,7 @@ class App extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    UI: state.UI,
 });
 
 export default connect(mapStateToProps, { init })(App);
-
-// export default App;

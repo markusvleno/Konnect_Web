@@ -1,6 +1,7 @@
 // import logo from "../../images/logo.svg";
 
 import { createSlice } from "@reduxjs/toolkit";
+import { createSignalProtocolManager, SignalServerStore } from "../../signal/SignalGateway";
 
 let temp = [
     {
@@ -45,6 +46,8 @@ export const user = createSlice({
         profilePicture: "/static/assets/images/profile.svg",
         conversation: [],
         friends: [],
+        // dummySignalServer: new SignalServerStore(),
+        // signalProtocolManagerUser: undefined,
     },
     reducers: {
         init: (state, action) => {
@@ -53,6 +56,7 @@ export const user = createSlice({
             state.name = payload.name;
             state.profilePicture = payload.profilePicture;
             state.conversation = temp;
+            // state.signalProtocolManagerUser = payload.signalProtocolManagerUser;
         },
         updateName: (state, action) => {
             state.name = action.payload.name;

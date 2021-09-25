@@ -8,9 +8,9 @@ export const timeCalcl = (ms) => {
     const currentTime = new Date(Date.now());
     const inputTime = new Date(ms);
 
-    let inputInHr = inputTime.getHours() > 12 ? inputTime.getHours() - 12 : inputTime.getHours();
-    let inputInM = inputTime.getMinutes();
-    let inputInS = inputTime.getSeconds();
+    // let inputInHr = inputTime.getHours() > 12 ? inputTime.getHours() - 12 : inputTime.getHours();
+    // let inputInM = inputTime.getMinutes();
+    // let inputInS = inputTime.getSeconds();
 
     let gapTime = inputTime.getTime() - currentTime.getTime();
 

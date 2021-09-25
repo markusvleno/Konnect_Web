@@ -2,19 +2,18 @@
  * vim: ts=4:sw=4
  */
 /* global dcodeIO */
-const libsignal = window.libsignal
 
 const util = (function () {
-    'use strict';
+    "use strict";
 
     var StaticArrayBufferProto = new ArrayBuffer().__proto__;
 
     return {
         toString: function (thing) {
-            if (typeof thing == 'string') {
+            if (typeof thing == "string") {
                 return thing;
             }
-            return new dcodeIO.ByteBuffer.wrap(thing).toString('binary');
+            return new dcodeIO.ByteBuffer.wrap(thing).toString("binary");
         },
         toArrayBuffer: function (thing) {
             if (thing === undefined) {
@@ -32,7 +31,7 @@ const util = (function () {
             } else {
                 throw new Error("Tried to convert a non-string of type " + typeof thing + " to an array buffer");
             }
-            return new dcodeIO.ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
+            return new dcodeIO.ByteBuffer.wrap(thing, "binary").toArrayBuffer();
         },
         isEqual: function (a, b) {
             // TODO: Special-case arraybuffers, etc
@@ -48,7 +47,7 @@ const util = (function () {
             return a.substring(0, Math.min(maxLength, a.length)) == b.substring(0, Math.min(maxLength, b.length));
         },
         arrayBufferToBase64: (buffer) => {
-            let binary = '';
+            let binary = "";
             let bytes = new Uint8Array(buffer);
             let len = bytes.byteLength;
             for (let i = 0; i < len; i++) {
@@ -64,8 +63,18 @@ const util = (function () {
                 bytes[i] = binary_string.charCodeAt(i);
             }
             return bytes.buffer;
-        }
+        },
+        getCookie: (name) => {
+            const cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                let c = cookies[i].trim().split("=");
+                if (c[0] === name) {
+                    return c[1];
+                }
+            }
+            return undefined;
+        },
     };
 })();
 
-export default util
+export default util;

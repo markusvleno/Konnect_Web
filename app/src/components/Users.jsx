@@ -4,10 +4,26 @@ import { connect } from "react-redux";
 
 import { timeCalcl } from "../utils";
 class Users extends React.PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.openConversationWindow = this.openConversationWindow.bind(this);
+    }
+
+    openConversationWindow = (chatID) => {
+        console.log(chatID);
+    };
+
     makeConversationList = () => {
         let list = this.props.user.conversation.map((conv) => {
             return (
-                <li key={conv.chatID}>
+                <li
+                    key={conv.chatID}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        this.openConversationWindow(e.currentTarget);
+                    }}
+                >
                     <img
                         src="/static/assets/images/profile.svg"
                         height="40px"
@@ -37,6 +53,7 @@ class Users extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    UI: state.UI,
 });
 
 export default connect(mapStateToProps, null)(Users);

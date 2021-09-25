@@ -4,7 +4,7 @@ export const UI = createSlice({
     name: "UI",
     initialState: {
         convWindow: {
-            isSelected: false,
+            isSelected: true,
             selectedUser: "Brah1",
         },
         settingWindow: {
