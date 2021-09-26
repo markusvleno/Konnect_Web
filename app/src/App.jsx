@@ -3,6 +3,7 @@ import "./css/template.css";
 import React from "react";
 import { connect } from "react-redux";
 import { init } from "./redux/slice/user";
+import { createSignalProtocolManager, SignalServerStore } from "./signal/SignalGateway";
 
 import Logo from "./components/Logo";
 import Option from "./components/Option";
@@ -11,40 +12,26 @@ import Users from "./components/Users";
 import Conversation from "./components/Conversation";
 
 import { v4 as uuid } from "uuid";
-import util from "./signal/helpers";
-import { createSignalProtocolManager } from './signal/SignalGateway'
 
 let messageSocket = null;
 
 class App extends React.PureComponent {
-    async constructor(props) {
+    constructor(props) {
         super(props);
-        this.keyHelper = window.libsignal.KeyHelper;
         this.init = this.props.init.bind(this);
-        console.log(this.keyHelper);
+        this.state = {
+            SignalServer: new SignalServerStore(),
+        };
     }
 
     async componentDidMount() {
-        // const response = await fetch("/user").then((res) => res.json());
-        const response = {
-            user: {
-                username: "Markus",
-                name: "Makrus",
-                profilePicture: "/static/assets/images/profile.svg",
-                conversation: [],
-            },
-        };
+        const response = await fetch("api/v1/user").then((res) => res.json());
+        // let signal = new Signal(response.data.userId);
 
-        var regID = this.keyHelper.generateRegistrationId();
-        // this.keyHelper.generateIdentityKeyPair().then((identityKeyPair) => {
-        //     console.log(util.arrayBufferToBase64(identityKeyPair.pubKey));
-        //     console.log(util.arrayBufferToBase64(identityKeyPair.privKey));
-        // });
-        this.keyHelper.generatePreKey(101).then(function (prekey) {
-            console.log(util.arrayBufferToBase64(prekey.keyPair.pubKey));
-            console.log(util.arrayBufferToBase64(prekey.keyPair.privKey));
+        createSignalProtocolManager(response.data.userId, this.state.SignalServer).then((signalProtocalManager) => {
+            let userState = { ...response.data, signalProtocalManager };
+            this.init(userState);
         });
-        console.log(regID);
     }
 
     render() {

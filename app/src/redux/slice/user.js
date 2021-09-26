@@ -1,7 +1,7 @@
 // import logo from "../../images/logo.svg";
 
 import { createSlice } from "@reduxjs/toolkit";
-import { createSignalProtocolManager, SignalServerStore } from "../../signal/SignalGateway";
+import { MessageLoader } from "../../utils";
 
 let temp = [
     {
@@ -10,7 +10,8 @@ let temp = [
         chatLog: [
             {
                 data: "sup homie",
-                messageID: 100,
+                msgID: 100,
+                origin: true,
                 time: Date.now(),
             },
         ],
@@ -21,17 +22,20 @@ let temp = [
         chatLog: [
             {
                 data: "lol",
-                messageID: 101,
+                origin: false,
+                msgID: 101,
                 time: Date.now(),
             },
             {
                 data: "sup homie",
-                messageID: 102,
+                origin: true,
+                msgID: 102,
                 time: Date.now(),
             },
             {
                 data: "sup homie",
-                messageID: 103,
+                origin: false,
+                msgID: 103,
                 time: Date.now(),
             },
         ],
@@ -41,23 +45,37 @@ let temp = [
 export const user = createSlice({
     name: "user",
     initialState: {
+        userId: null,
         username: "Undefined",
         name: "Undefined",
         profilePicture: "/static/assets/images/profile.svg",
         conversation: [],
-        friends: [],
-        // dummySignalServer: new SignalServerStore(),
-        // signalProtocolManagerUser: undefined,
+        friendList: [],
+        messageLoader: new MessageLoader(),
+        signalProtocalManager: null,
     },
     reducers: {
         init: (state, action) => {
             const payload = action.payload;
+            state.userId = payload.userId;
             state.username = payload.username;
             state.name = payload.name;
-            state.profilePicture = payload.profilePicture;
             state.conversation = temp;
-            // state.signalProtocolManagerUser = payload.signalProtocolManagerUser;
+            state.friendList = payload.friendList;
+            state.signalProtocalManager = payload.signalProtocalManager;
+
+            let obj1 = {
+                data: "sup homie",
+                msgID: 100,
+                origin: true,
+                time: Date.now(),
+            };
+            state.messageLoader.putMessage(123, obj1);
+            state.messageLoader.putMessage(123, obj1);
+            state.messageLoader.putMessage(123, obj1);
+            state.messageLoader.putMessage(123, obj1);
         },
+
         updateName: (state, action) => {
             state.name = action.payload.name;
         },

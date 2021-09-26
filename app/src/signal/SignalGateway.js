@@ -1,48 +1,66 @@
-
-import util from './helpers'
+import util from "./helpers";
 import SignalProtocolStore from "./InMemorySignalProtocolStore";
+import axios from "axios";
 
-const libsignal = window.libsignal
+const libsignal = window.libsignal;
 /**
  * Dummy signal server connector.
- * In a real application this component would connect to your signal 
+ * In a real application this component would connect to your signal
  * server for storing and fetching user public keys over HTTP.
  */
 export class SignalServerStore {
+    constructor() {
+        this.bundleAPI = axios.create({
+            baseURL: "/api/v1/bundle",
+            headers: {
+                cookies: {
+                    _token: util.getCookie("_token"),
+                },
+            },
+        });
+    }
+
     /**
      * When a user logs on they should generate their keys and then register them with the server.
-     * 
+     *
      * @param userId The user ID.
      * @param preKeyBundle The user's generated pre-key bundle.
      */
-    registerNewPreKeyBundle(userId, preKeyBundle) {
-        let storageBundle = { ...preKeyBundle }
-        storageBundle.identityKey = util.arrayBufferToBase64(storageBundle.identityKey)
-        storageBundle.preKeys = storageBundle.preKeys.map(preKey => {
+    async registerNewPreKeyBundle(userId, preKeyBundle) {
+        let storageBundle = { ...preKeyBundle };
+        storageBundle.identityKey = util.arrayBufferToBase64(storageBundle.identityKey);
+        storageBundle.preKeys = storageBundle.preKeys.map((preKey) => {
             return {
                 ...preKey,
-                publicKey: util.arrayBufferToBase64(preKey.publicKey)
-            }
-        })
-        storageBundle.signedPreKey.publicKey = util.arrayBufferToBase64(storageBundle.signedPreKey.publicKey)
-        storageBundle.signedPreKey.signature = util.arrayBufferToBase64(storageBundle.signedPreKey.signature)
-        localStorage.setItem(userId, JSON.stringify(storageBundle))
+                publicKey: util.arrayBufferToBase64(preKey.publicKey),
+            };
+        });
+        storageBundle.signedPreKey.publicKey = util.arrayBufferToBase64(storageBundle.signedPreKey.publicKey);
+        storageBundle.signedPreKey.signature = util.arrayBufferToBase64(storageBundle.signedPreKey.signature);
+        // localStorage.setItem(userId, JSON.stringify(storageBundle));
+        await this.postBundle(userId, storageBundle);
     }
 
-    updatePreKeyBundle(userId, preKeyBundle) {
-        localStorage.setItem(userId, JSON.stringify(preKeyBundle))
+    async updatePreKeyBundle(userId, preKeyBundle) {
+        // localStorage.setItem(userId, JSON.stringify(preKeyBundle));
+        await this.postBundle(userId, preKeyBundle);
     }
     /**
      * Gets the pre-key bundle for the given user ID.
      * If you want to start a conversation with a user, you need to fetch their pre-key bundle first.
-     * 
+     *
      * @param userId The ID of the user.
      */
-    getPreKeyBundle(userId) {
-        let preKeyBundle = JSON.parse(localStorage.getItem(userId))
-        let preKey = preKeyBundle.preKeys.splice(-1)
-        preKey[0].publicKey = util.base64ToArrayBuffer(preKey[0].publicKey)
-        this.updatePreKeyBundle(userId, preKeyBundle)
+    async getPreKeyBundle(userId) {
+        // let preKeyBundle = JSON.parse(localStorage.getItem(userId));
+
+        let preKeyBundle = await this.getBundle(userId);
+
+        console.log(preKeyBundle);
+
+        let preKey = preKeyBundle.preKeys.splice(-1);
+        preKey[0].publicKey = util.base64ToArrayBuffer(preKey[0].publicKey);
+        this.updatePreKeyBundle(userId, preKeyBundle);
         return {
             identityKey: util.base64ToArrayBuffer(preKeyBundle.identityKey),
             registrationId: preKeyBundle.registrationId,
@@ -51,8 +69,38 @@ export class SignalServerStore {
                 publicKey: util.base64ToArrayBuffer(preKeyBundle.signedPreKey.publicKey),
                 signature: util.base64ToArrayBuffer(preKeyBundle.signedPreKey.signature),
             },
-            preKey: preKey[0]
-        }
+            preKey: preKey[0],
+        };
+    }
+
+    async postBundle(userId, bundle) {
+        await this.bundleAPI
+            .post(`/?id=${userId}`, {
+                bundle: bundle,
+            })
+            .then((response) => {
+                if (response.data.code !== 200) console.log(response.data.message);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    async getBundle(userId) {
+        await this.bundleAPI
+            .get(`/?id=${userId}`)
+            .then((response) => {
+                if (response.status !== 200 || response.data.code !== 200) {
+                    //unknown server error handler
+                    return {};
+                }
+
+                return response.data.bundle;
+            })
+            .catch((error) => {
+                console.log(error);
+                return {};
+            });
     }
 }
 
@@ -79,7 +127,7 @@ class SignalProtocolManager {
 
     /**
      * Encrypt a message for a given user.
-     * 
+     *
      * @param remoteUserId The recipient user ID.
      * @param message The message to send.
      */
@@ -102,12 +150,12 @@ class SignalProtocolManager {
         }
 
         let cipherText = await sessionCipher.encrypt(util.toArrayBuffer(message));
-        return cipherText
+        return cipherText;
     }
 
     /**
      * Decrypts a message from a given user.
-     * 
+     *
      * @param remoteUserId The user ID of the message sender.
      * @param cipherText The encrypted message bundle. (This includes the encrypted message itself and accompanying metadata)
      * @returns The decrypted message string.
@@ -126,11 +174,11 @@ class SignalProtocolManager {
         // Returns a promise that resolves when the message is decrypted or
         // rejects if the identityKey differs from a previously seen identity for this address.
         if (messageHasEmbeddedPreKeyBundle) {
-            var decryptedMessage = await sessionCipher.decryptPreKeyWhisperMessage(cipherText.body, 'binary');
+            var decryptedMessage = await sessionCipher.decryptPreKeyWhisperMessage(cipherText.body, "binary");
             return util.toString(decryptedMessage);
         } else {
             // Decrypt a normal message using an existing session
-            var decryptedMessage = await sessionCipher.decryptWhisperMessage(cipherText.body, 'binary');
+            var decryptedMessage = await sessionCipher.decryptWhisperMessage(cipherText.body, "binary");
             return util.toString(decryptedMessage);
         }
     }
@@ -144,20 +192,17 @@ class SignalProtocolManager {
             libsignal.KeyHelper.generateRegistrationId(),
         ]);
 
-        this.store.put('identityKey', results[0]);
-        this.store.put('registrationId', results[1]);
+        this.store.put("identityKey", results[0]);
+        this.store.put("registrationId", results[1]);
     }
 
     /**
      * Generates a new pre-key bundle for the local user.
-     * 
+     *
      * @returns A pre-key bundle.
      */
     async _generatePreKeyBundleAsync() {
-        var result = await Promise.all([
-            this.store.getIdentityKeyPair(),
-            this.store.getLocalRegistrationId()
-        ]);
+        var result = await Promise.all([this.store.getIdentityKeyPair(), this.store.getLocalRegistrationId()]);
 
         let identity = result[0];
         let registrationId = result[1];
@@ -170,23 +215,23 @@ class SignalProtocolManager {
             libsignal.KeyHelper.generatePreKey(registrationId + 2),
             libsignal.KeyHelper.generatePreKey(registrationId + 3),
             libsignal.KeyHelper.generatePreKey(registrationId + 4),
-            libsignal.KeyHelper.generateSignedPreKey(identity, registrationId + 1)
+            libsignal.KeyHelper.generateSignedPreKey(identity, registrationId + 1),
         ]);
 
-        let preKeys = [keys[0], keys[1], keys[2], keys[3]]
+        let preKeys = [keys[0], keys[1], keys[2], keys[3]];
         let signedPreKey = keys[4];
 
-        preKeys.forEach(preKey => {
+        preKeys.forEach((preKey) => {
             this.store.storePreKey(preKey.keyId, preKey.keyPair);
-        })
+        });
         this.store.storeSignedPreKey(signedPreKey.keyId, signedPreKey.keyPair);
 
-        let publicPreKeys = preKeys.map(preKey => {
+        let publicPreKeys = preKeys.map((preKey) => {
             return {
                 keyId: preKey.keyId,
-                publicKey: preKey.keyPair.pubKey
-            }
-        })
+                publicKey: preKey.keyPair.pubKey,
+            };
+        });
         return {
             identityKey: identity.pubKey,
             registrationId: registrationId,
@@ -194,20 +239,14 @@ class SignalProtocolManager {
             signedPreKey: {
                 keyId: signedPreKey.keyId,
                 publicKey: signedPreKey.keyPair.pubKey,
-                signature: signedPreKey.signature
-            }
+                signature: signedPreKey.signature,
+            },
         };
     }
 }
 
-export async function createSignalProtocolManager(userid, name, dummySignalServer) {
+export async function createSignalProtocolManager(userid, dummySignalServer) {
     let signalProtocolManagerUser = new SignalProtocolManager(userid, dummySignalServer);
-    await Promise.all([
-        signalProtocolManagerUser.initializeAsync(),
-    ]);
-    return signalProtocolManagerUser
+    await Promise.all([signalProtocolManagerUser.initializeAsync()]);
+    return signalProtocolManagerUser;
 }
-
-
-
-
