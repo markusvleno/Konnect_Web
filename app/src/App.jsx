@@ -4,6 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { init } from "./redux/slice/user";
 import { createSignalProtocolManager, SignalServerStore } from "./signal/SignalGateway";
+import { getConversation } from "./utils";
 
 import Logo from "./components/Logo";
 import Option from "./components/Option";
@@ -26,10 +27,9 @@ class App extends React.PureComponent {
 
     async componentDidMount() {
         const response = await fetch("api/v1/user").then((res) => res.json());
-        // let signal = new Signal(response.data.userId);
-
+        const savedConv = getConversation(response.data.userId);
         createSignalProtocolManager(response.data.userId, this.state.SignalServer).then((signalProtocalManager) => {
-            let userState = { ...response.data, signalProtocalManager };
+            let userState = { ...response.data, signalProtocalManager, savedConv };
             this.init(userState);
         });
     }
@@ -66,3 +66,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { init })(App);
+
+//s:9ucmGEXOcUUINEQh4n3NN3z9qICtmfjs.aOxcRwCW/AaKb//ue+uK+XprDJ+na8qs6+QxD69wYrc

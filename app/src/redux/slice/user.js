@@ -1,41 +1,15 @@
 // import logo from "../../images/logo.svg";
 
 import { createSlice } from "@reduxjs/toolkit";
-import { MessageLoader } from "../../utils";
 
-let temp = [
+let sample = [
     {
         username: "brah1",
-        chatID: 123,
         chatLog: [
             {
                 data: "sup homie",
-                msgID: 100,
+                msgID: 1000,
                 origin: true,
-                time: Date.now(),
-            },
-        ],
-    },
-    {
-        username: "brah2",
-        chatID: 124,
-        chatLog: [
-            {
-                data: "lol",
-                origin: false,
-                msgID: 101,
-                time: Date.now(),
-            },
-            {
-                data: "sup homie",
-                origin: true,
-                msgID: 102,
-                time: Date.now(),
-            },
-            {
-                data: "sup homie",
-                origin: false,
-                msgID: 103,
                 time: Date.now(),
             },
         ],
@@ -46,12 +20,10 @@ export const user = createSlice({
     name: "user",
     initialState: {
         userId: null,
-        username: "Undefined",
-        name: "Undefined",
+        username: "",
+        name: "",
         profilePicture: "/static/assets/images/profile.svg",
         conversation: [],
-        friendList: [],
-        messageLoader: new MessageLoader(),
         signalProtocalManager: null,
     },
     reducers: {
@@ -60,20 +32,8 @@ export const user = createSlice({
             state.userId = payload.userId;
             state.username = payload.username;
             state.name = payload.name;
-            state.conversation = temp;
-            state.friendList = payload.friendList;
+            state.conversation = payload.savedConv;
             state.signalProtocalManager = payload.signalProtocalManager;
-
-            let obj1 = {
-                data: "sup homie",
-                msgID: 100,
-                origin: true,
-                time: Date.now(),
-            };
-            state.messageLoader.putMessage(123, obj1);
-            state.messageLoader.putMessage(123, obj1);
-            state.messageLoader.putMessage(123, obj1);
-            state.messageLoader.putMessage(123, obj1);
         },
 
         updateName: (state, action) => {

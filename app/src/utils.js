@@ -19,33 +19,15 @@ export const timeCalcl = (ms) => {
     else return inputTime.toLocaleDateString();
 };
 
-export class MessageLoader {
-    constructor() {
-        this.LS = window.localStorage;
-    }
+export const getConversation = (userId) => {
+    const prevConversation = localStorage.getItem(String(userId));
 
-    getMessages(userId) {
-        const prevMessages = this.LS.getItem(String(userId));
+    return prevConversation ? JSON.parse(prevConversation)[0] : [];
+};
 
-        return prevMessages ? JSON.parse(prevMessages) : null;
-    }
+export const putConversation = (userId, convObj) => {
+    if (!userId || !convObj) return;
 
-    putMessage(userId, messageObj) {
-        if (!userId || !messageObj) return;
-
-        if (!messageObj.data) return;
-        if (!messageObj.origin) messageObj.origin = false;
-        if (!messageObj.msgID) messageObj.msgID = v4();
-        if (!messageObj.time) messageObj.time = Date.now();
-
-        let oldMessages = [];
-        oldMessages = this.getMessages(userId);
-
-        if (oldMessages) {
-            this.LS.removeItem(String(userId));
-            this.LS.setItem(String(userId), JSON.stringify([...oldMessages, messageObj]));
-        } else {
-            this.LS.setItem(String(userId), JSON.stringify([messageObj]));
-        }
-    }
-}
+    localStorage.removeItem(String(userId));
+    localStorage.setItem(String(userId), JSON.stringify([convObj]));
+};

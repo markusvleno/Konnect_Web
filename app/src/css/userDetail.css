@@ -1,11 +1,19 @@
 .user-detail {
-    background-color: var(--back);
     height: 40px;
     border-radius: 30px;
-    display: flex;
     align-items: center;
     padding: 0px 15px;
     justify-content: flex-start;
+}
+
+.user-detail-show {
+    background-color: var(--back);
+    color: white;
+    display: flex;
+}
+
+.user-detail-hidden {
+    display: none;
 }
 
 .user-detail img {

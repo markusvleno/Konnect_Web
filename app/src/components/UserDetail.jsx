@@ -1,17 +1,27 @@
 import "../css/userDetail.css";
 import React from "react";
-import { useSelector } from "react-redux";
+import { connect } from "react-redux";
 
-const UserDetail = () => {
-    const logo = useSelector((state) => state.user.profilePicture);
-    const username = useSelector((state) => state.user.name);
+class UserDetail extends React.PureComponent {
+    constructor(props) {
+        super(props);
+    }
 
-    return (
-        <div className="user-detail">
-            <img src={logo} alt=" " />
-            <span>{username}</span>
-        </div>
-    );
-};
+    render() {
+        return this.props.UI.convWindow.isSelected ? (
+            <div className="user-detail user-detail-show">
+                <img src="/static/assets/images/profile.svg" alt=" " />
+                <span>{this.props.UI.convWindow.selectedUser}</span>
+            </div>
+        ) : (
+            <div className="user-detail user-detail-hidden"></div>
+        );
+    }
+}
 
-export default UserDetail;
+const mapStateToProps = (state) => ({
+    user: state.user,
+    UI: state.UI,
+});
+
+export default connect(mapStateToProps, {})(UserDetail);
