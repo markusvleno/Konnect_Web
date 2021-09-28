@@ -5,7 +5,7 @@ export const UI = createSlice({
     initialState: {
         convWindow: {
             isSelected: false,
-            selectedUser: "Brah1",
+            selectedUserId: null,
         },
         settingWindow: {
             isOpen: false,
@@ -13,13 +13,13 @@ export const UI = createSlice({
     },
     reducers: {
         openConvWindow: (state, action) => {
-            const { username } = action.payload;
+            const { userId, isSelected } = action.payload;
 
-            if (!username) {
+            if (!userId) {
                 state.convWindow.isSelected = false;
                 return;
             }
-            state.convWindow = { isSelected: true, selectedUser: username };
+            state.convWindow = { isSelected: isSelected, selectedUserId: userId };
         },
         changeSettingWindow: (state, action) => {
             const value = action.payload;

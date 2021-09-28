@@ -2,26 +2,21 @@ import "../css/users.css";
 import React from "react";
 import { connect } from "react-redux";
 
+import { openConvWindow } from "../redux/slice/UI";
 import { timeCalcl } from "../utils";
 class Users extends React.PureComponent {
     constructor(props) {
         super(props);
-
-        this.openConversationWindow = this.openConversationWindow.bind(this);
     }
-
-    openConversationWindow = (chatID) => {
-        console.log(chatID);
-    };
 
     makeConversationList = () => {
         let list = this.props.user.conversation.map((conv) => {
             return (
                 <li
-                    key={conv.chatID}
+                    key={conv.userId}
                     onClick={(e) => {
                         e.preventDefault();
-                        this.openConversationWindow(e.currentTarget);
+                        this.props.openConvWindow({ isSelected: true, userId: conv.userId });
                     }}
                 >
                     <img
@@ -32,7 +27,11 @@ class Users extends React.PureComponent {
                         className="profile"
                     />
                     <div className="name">{conv.username}</div>
-                    <div className="lastMsg">{conv.chatLog[0].data || ""}</div>
+                    <div className="lastMsg">
+                        {conv.chatLog[0].data.length > 20
+                            ? conv.chatLog[0].data.substring(0, 20) + "..."
+                            : conv.chatLog[0].data || ""}
+                    </div>
                     <div className="lastMsgTime">{timeCalcl(conv.chatLog[0].time) || ""}</div>
                 </li>
             );
@@ -56,4 +55,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI,
 });
 
-export default connect(mapStateToProps, null)(Users);
+export default connect(mapStateToProps, { openConvWindow })(Users);

@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 let sample = [
     {
         username: "brah1",
+        name: "Brah",
         chatLog: [
             {
                 data: "sup homie",

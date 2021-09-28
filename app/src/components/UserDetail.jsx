@@ -5,13 +5,22 @@ import { connect } from "react-redux";
 class UserDetail extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.getUsername = this.getUsername.bind(this);
+    }
+
+    getUsername() {
+        let username = "";
+        this.props.user.conversation.forEach((user) => {
+            if (user.userId === this.props.UI.convWindow.selectedUserId) username = user.username;
+        });
+        return username;
     }
 
     render() {
         return this.props.UI.convWindow.isSelected ? (
             <div className="user-detail user-detail-show">
                 <img src="/static/assets/images/profile.svg" alt=" " />
-                <span>{this.props.UI.convWindow.selectedUser}</span>
+                <span>{this.getUsername()}</span>
             </div>
         ) : (
             <div className="user-detail user-detail-hidden"></div>

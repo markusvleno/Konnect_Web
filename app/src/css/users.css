@@ -56,6 +56,9 @@
     margin: 0px 10px 0px 10px;
     overflow: hidden;
     font-size: 0.8rem;
+    line-height: 2;
+    width: 100%;
+    word-wrap: break-word;
 }
 
 .lastMsgTime {
@@ -63,6 +66,7 @@
     font-weight: 600;
     grid-area: t;
     margin-right: 10px;
+    margin-top: 10px;
 }
 
 /*
