@@ -36,8 +36,62 @@ class App extends React.PureComponent {
                 name: "Brah",
                 chatLog: [
                     {
-                        data: "sup homieasdawasdawdasdawdasdawdsdawsdawsdawd",
+                        data: "sup",
                         msgID: 1000,
+                        origin: true,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "omeha ahjsodwodm awodnaowd awopa awpoda awdawdj",
+                        msgID: 1001,
+                        origin: false,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup sadawd asdawd asdawdadsawdadsa wdasdawsdasdawdasdawdasd asdawdasdawdasda sdadwasdadwasdad",
+                        msgID: 1002,
+                        origin: true,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup homieasdawasdawdasdawdasdawdsdawsdawsdawd",
+                        msgID: 1003,
+                        origin: true,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup homieasdawasdawdasdawdasdawdsdawsdawsdawd",
+                        msgID: 1004,
+                        origin: false,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup homieasdawasdawdasdawdasdawdsdawsdawsdawd",
+                        msgID: 1005,
+                        origin: true,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup homieasdawasdawdasdawdasdawdsdawsdawsdawdGowrsh",
+                        msgID: 1006,
+                        origin: true,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup",
+                        msgID: 1007,
+                        origin: true,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup",
+                        msgID: 1008,
+                        origin: true,
+                        time: Date.now(),
+                    },
+                    {
+                        data: "sup",
+                        msgID: 1009,
                         origin: true,
                         time: Date.now(),
                     },

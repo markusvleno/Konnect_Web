@@ -4,9 +4,103 @@
     background-color: var(--back);
     border-radius: 30px;
     display: flex;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
     margin-left: 20px;
+}
+
+.messageList {
+    display: flex;
+    width: 95%;
+    height: 90%;
+}
+
+.msgList {
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.messageWrap {
+    width: 100%;
+    display: grid;
+    position: relative;
+}
+
+.messageBox {
+    max-width: 46%;
+    margin: 20px 20px;
+    padding: 10px 15px;
+}
+
+.self {
+    justify-self: right;
+    border-radius: 25px 25px 0px 25px;
+    background-color: var(--base);
+}
+
+.nself {
+    justify-content: left;
+    border-radius: 25px 25px 25px 0px;
+    background-color: var(--front);
+}
+
+.messageData {
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.messageTime {
+    position: absolute;
+    bottom: 0;
+    margin-top: 10px;
+    font-size: small;
+}
+
+.leftTime {
+    left: 0;
+    margin-left: 25px;
+}
+
+.rightTime {
+    right: 0;
+    margin-right: 25px;
+}
+
+.messageInput {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    max-height: 20%;
+    min-height: 50px;
+    margin: 10px 0;
+}
+
+.messageInputText {
+    width: 95%;
+    height: 80%;
+    background-color: var(--base);
+    border-radius: 25px;
+    padding: 0 25px;
+    margin-right: 10px;
+    font-size: medium;
+}
+
+.sendBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: var(--front);
+    margin: 5px;
+}
+.sendBtn svg {
+    margin-right: 2px;
+    width: 25px;
+    height: 25px;
 }
 
 /*
@@ -14,4 +108,8 @@ mobile view port
 */
 
 @media screen and (max-width: 900px) {
+}
+
+ul {
+    list-style: none;
 }
