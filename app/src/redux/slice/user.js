@@ -1,6 +1,7 @@
 // import logo from "../../images/logo.svg";
 
 import { createSlice } from "@reduxjs/toolkit";
+import { putConversation } from "../../utils";
 
 let sample = [
     {
@@ -26,6 +27,7 @@ export const user = createSlice({
         profilePicture: "/static/assets/images/profile.svg",
         conversation: [],
         signalProtocalManager: null,
+        socket: null,
     },
     reducers: {
         init: (state, action) => {
@@ -35,6 +37,7 @@ export const user = createSlice({
             state.name = payload.name;
             state.conversation = payload.savedConv;
             state.signalProtocalManager = payload.signalProtocalManager;
+            state.socket = payload.socket;
         },
 
         updateName: (state, action) => {
@@ -45,6 +48,19 @@ export const user = createSlice({
         },
         newConversation: (state, action) => {
             state.conversation = new Array(...state.conversation, action.payload);
+        },
+        newMessage: (state, action) => {
+            const { username, msgObj } = action.payload;
+
+            const userObj = null;
+            state.conversation.forEach((conv) => {
+                if (conv.username === username) userObj = conv;
+            });
+
+            if (!userObj) return;
+
+            userObj.chatLog.push(msgObj);
+            putConversation(state.userId, state.conversation);
         },
         deleteConversation: (state, action) => {
             const { username } = action.payload;
@@ -58,6 +74,6 @@ export const user = createSlice({
     },
 });
 
-export const { init, updateName, updateProfilePicture, newConversation, deleteConversation } = user.actions;
+export const { init, updateName, updateProfilePicture, newConversation, deleteConversation, newMessage } = user.actions;
 
 export default user.reducer;

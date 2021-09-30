@@ -2,9 +2,10 @@ import "./css/base.css";
 import "./css/template.css";
 import React from "react";
 import { connect } from "react-redux";
-import { init } from "./redux/slice/user";
+import { newMessage, init } from "./redux/slice/user";
 import { createSignalProtocolManager, SignalServerStore } from "./signal/SignalGateway";
 import { getConversation, putConversation } from "./utils";
+import { io } from "socket.io-client";
 
 import Logo from "./components/Logo";
 import Option from "./components/Option";
@@ -12,9 +13,9 @@ import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
 
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 
-let messageSocket = null;
+// let messageSocket = null;
 
 class App extends React.PureComponent {
     constructor(props) {
@@ -28,6 +29,23 @@ class App extends React.PureComponent {
 
     async componentDidMount() {
         const response = await fetch("api/v1/user").then((res) => res.json());
+
+        // socket
+
+        let socket = new io("http://localhost:5000/chat", {
+            path: "/sockets",
+            autoConnect: true,
+            reconnectionDelay: 1000,
+            withCredentials: true,
+            forceNew: false,
+            reconnectionAttempts: 3,
+            extraHeaders: {
+                "Access-Control-Allow-Origin": "http://localhost",
+            },
+            query: {
+                userId: response.data.userId,
+            },
+        });
 
         let temp = [
             {
@@ -127,9 +145,65 @@ class App extends React.PureComponent {
         putConversation(response.data.userId, temp);
         const savedConv = getConversation(response.data.userId);
         createSignalProtocolManager(response.data.userId, this.state.SignalServer).then((signalProtocalManager) => {
-            let userState = { ...response.data, signalProtocalManager, savedConv };
+            let userState = {
+                ...response.data,
+                signalProtocalManager,
+                savedConv,
+                socket: socket,
+            };
+
             this.init(userState);
         });
+    }
+
+    async componentDidUpdate() {
+        try {
+            // let encryptedMessage = await this.signalProtocalManager.encryptMessageAsync(to.userId, message);
+            let encryptedMessage = "brah";
+            const { username, userId } = this.props.user;
+
+            let to = {
+                username: "lol",
+                userId: "lol",
+            };
+
+            let _msgToSend = {
+                data: encryptedMessage,
+                type: "msg/text",
+                time: Date.now(),
+                reciever: {
+                    username: to.username,
+                    userId: to.userId,
+                },
+                sender: {
+                    username: username,
+                    userId: userId,
+                },
+            };
+
+            this.props.user.socket.emit(
+                "send-message",
+                {
+                    _msgToSend,
+                },
+                (response) => {
+                    if (!response) return; //message didnt not send
+
+                    console.log(response);
+
+                    // let msgObj = {
+                    //     data: _msgToSend.data,
+                    //     type: _msgToSend.type,
+                    //     time: _msgToSend.time,
+                    //     origin: true,
+                    // };
+
+                    // this.dispatch(newMessage({ username: _msgToSend.reciever.username, msgObj: msgObj }));
+                },
+            );
+        } catch (error) {
+            // console.log("couldn't send message to" + to.username);
+        }
     }
 
     render() {
