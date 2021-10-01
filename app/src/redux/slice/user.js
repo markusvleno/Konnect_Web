@@ -2,6 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { putConversation } from "../../utils";
+import axios from "axios";
 
 let sample = [
     {
@@ -49,7 +50,7 @@ export const user = createSlice({
         newConversation: (state, action) => {
             state.conversation = new Array(...state.conversation, action.payload);
         },
-        newMessage: (state, action) => {
+        newMessage: async (state, action) => {
             const { username, msgObj } = action.payload;
 
             const userObj = null;
@@ -57,9 +58,24 @@ export const user = createSlice({
                 if (conv.username === username) userObj = conv;
             });
 
-            if (!userObj) return;
+            if (!userObj) {
+                axios.get(`/api/v1/user/?username=${username}`).then((response) => {
+                    if (response.status !== 200 || response.data.code !== 200) {
+                        return;
+                    }
 
-            userObj.chatLog.push(msgObj);
+                    userObj = {
+                        username: response.data.username,
+                        userId: response.data.userId,
+                        name: response.data.name,
+                        chatLog: [msgObj],
+                    };
+                    state.conversation.push(userObj);
+                });
+            } else {
+                userObj.chatLog.push(msgObj);
+            }
+
             putConversation(state.userId, state.conversation);
         },
         deleteConversation: (state, action) => {

@@ -1,6 +1,6 @@
 import "../css/conversation.css";
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { send } from "../images/svgs";
 import { timeCalcl } from "../utils";
 
@@ -13,11 +13,13 @@ function Conversation() {
         return temp;
     });
 
-    const [message, handleMessage] = useState("");
+    const [message, setMessage] = useState("");
+    const [dispatch] = useDispatch();
 
     const scrollBar = useRef(null);
     useEffect(() => {
         scrollBar.current.scrollTop = 9999999;
+        setMessage({ message: "" });
     });
 
     const renderMessageList = () => {
@@ -40,17 +42,50 @@ function Conversation() {
         return List;
     };
 
-    const handleSendMessage = () => {
-        let _msg = message.trim();
+    const sendMessage = async () => {
+        try {
+            let { signalProtocalManager, socket, username, userId } = useSelector((state) => state.user);
 
-        if (_msg.length <= 0 || _msg === "") return;
+            const encryptedMessage = await signalProtocalManager.encryptMessageAsync(convUserObj.userId, message);
 
-        let _msgObj = {
-            date: _msg,
-            time: Date.now(),
-            type: "msg/text",
-            convUserObj: convUserObj,
-        };
+            let _msgToSend = {
+                data: encryptedMessage,
+                type: "msg/text",
+                time: Date.now(),
+                receiver: {
+                    username: convUserObj.username,
+                    userId: convUserObj.userId,
+                },
+                sender: {
+                    username: username,
+                    userId: userId,
+                },
+            };
+
+            socket.emit("send-message", { _msgToSend }, (response) => {
+                if (!response) {
+                    return; //message didnt not send : true or false
+                }
+                let msgObj = {
+                    data: message,
+                    type: _msgToSend.type,
+                    time: _msgToSend.time,
+                    origin: true,
+                };
+
+                this.dispatch(newMessage({ username: _msgToSend.receiver.username, msgObj: msgObj }));
+                setMessage({ message: "" });
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleInput = (value) => {
+        let rawMsg = value.trimStart();
+        if (rawMsg.length <= 0 || rawMsg.length > 256) return;
+
+        setMessage({ message: rawMsg });
     };
 
     return (
@@ -68,14 +103,23 @@ function Conversation() {
                         name="messageInputText"
                         id="messageInputText"
                         placeholder="Type a message..."
+                        value={message}
                         onInput={(e) => {
-                            handleMessage(e.currentTarget.value);
+                            handleInput(e.currentTarget.value);
                         }}
                         onKeyPress={(e) => {
-                            // console.log(e.key);
+                            console.log(e.code);
                         }}
                     />
-                    <div className="sendBtn">{send()}</div>
+                    <div
+                        className="sendBtn"
+                        onClick={async (e) => {
+                            e.preventDefault();
+                            await sendMessage();
+                        }}
+                    >
+                        {send()}
+                    </div>
                 </div>
             </div>
         </React.Fragment>
