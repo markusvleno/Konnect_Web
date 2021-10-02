@@ -1,10 +1,15 @@
 import "../css/conversation.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 import { send } from "../images/svgs";
 import { timeCalcl } from "../utils";
 
+import { newMessage } from "../redux/slice/user";
+
 function Conversation() {
+    let { signalProtocalManager, socket, username, userId } = useSelector((state) => state.user);
+
     let convUserObj = useSelector((state) => {
         let temp = {};
         state.user.conversation.forEach((user) => {
@@ -22,6 +27,10 @@ function Conversation() {
         setMessage({ message: "" });
     });
 
+    useEffect(() => {
+        setMessage({ message: "" });
+    }, [message]);
+
     const renderMessageList = () => {
         let chatLog = convUserObj.chatLog;
 
@@ -29,7 +38,7 @@ function Conversation() {
 
         let List = chatLog.map((msg) => {
             return (
-                <li className="messageWrap" key={msg.msgID}>
+                <li className="messageWrap" key={msg.msgId}>
                     <div className={msg.origin ? "messageBox self" : "messageBox nself"}>
                         <span className="messageData">{msg.data}</span>
                         <span className={msg.origin ? "messageTime rightTime" : "messageTime leftTime"}>
@@ -44,8 +53,6 @@ function Conversation() {
 
     const sendMessage = async () => {
         try {
-            let { signalProtocalManager, socket, username, userId } = useSelector((state) => state.user);
-
             const encryptedMessage = await signalProtocalManager.encryptMessageAsync(convUserObj.userId, message);
 
             let _msgToSend = {
@@ -71,9 +78,10 @@ function Conversation() {
                     type: _msgToSend.type,
                     time: _msgToSend.time,
                     origin: true,
+                    msgId: uuid(),
                 };
 
-                this.dispatch(newMessage({ username: _msgToSend.receiver.username, msgObj: msgObj }));
+                dispatch(newMessage({ username: _msgToSend.receiver.username, msgObj: msgObj }));
                 setMessage({ message: "" });
             });
         } catch (error) {
@@ -107,8 +115,8 @@ function Conversation() {
                         onInput={(e) => {
                             handleInput(e.currentTarget.value);
                         }}
-                        onKeyPress={(e) => {
-                            console.log(e.code);
+                        onKeyPress={async (e) => {
+                            if (e.code === "Enter") await sendMessage();
                         }}
                     />
                     <div

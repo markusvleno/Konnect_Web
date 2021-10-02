@@ -53,13 +53,13 @@ export const user = createSlice({
         newMessage: async (state, action) => {
             const { username, msgObj } = action.payload;
 
-            const userObj = null;
+            var userObj = null;
             state.conversation.forEach((conv) => {
                 if (conv.username === username) userObj = conv;
             });
 
             if (!userObj) {
-                axios.get(`/api/v1/user/?username=${username}`).then((response) => {
+                await axios.get(`/api/v1/user/?username=${username}`).then((response) => {
                     if (response.status !== 200 || response.data.code !== 200) {
                         return;
                     }

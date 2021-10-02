@@ -21,7 +21,6 @@ export const timeCalcl = (ms) => {
 
 export const getConversation = (userId) => {
     const prevConversation = localStorage.getItem(String(userId));
-
     return prevConversation ? JSON.parse(prevConversation)[0] : [];
 };
 

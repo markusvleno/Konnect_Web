@@ -4,8 +4,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { newMessage, init } from "./redux/slice/user";
 import { createSignalProtocolManager, SignalServerStore } from "./signal/SignalGateway";
-import { getConversation, putConversation } from "./utils";
+import { getConversation } from "./utils";
 import { io } from "socket.io-client";
+import axios from "axios";
+import util from "./signal/helpers";
 
 import Logo from "./components/Logo";
 import Option from "./components/Option";
@@ -13,7 +15,7 @@ import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
 
-// import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid";
 
 // let messageSocket = null;
 
@@ -22,16 +24,26 @@ class App extends React.PureComponent {
         super(props);
 
         this.init = this.props.init.bind(this);
+        this.newMessage = this.props.newMessage.bind(this);
         this.state = {
             SignalServer: new SignalServerStore(),
         };
     }
 
     async componentDidMount() {
-        const response = await fetch("api/v1/config").then((res) => res.json());
+        const response = await axios
+            .get("/api/v1/config", {
+                headers: {
+                    cookies: {
+                        _token: util.getCookie("_token"),
+                    },
+                },
+            })
+            .then((res) => res.data)
+            .catch((error) => console.log(error));
 
         // socket
-        let socket = new io("http://localhost:5000/chat", {
+        const socket = new io("http://localhost:5000/chat", {
             path: "/sockets",
             autoConnect: true,
             reconnectionDelay: 1000,
@@ -46,24 +58,39 @@ class App extends React.PureComponent {
             },
         });
 
-        putConversation(response.data.userId, temp);
         const savedConv = getConversation(response.data.userId);
-        createSignalProtocolManager(response.data.userId, this.state.SignalServer).then((signalProtocalManager) => {
-            let userState = {
-                ...response.data,
-                signalProtocalManager,
-                savedConv,
-                socket: socket,
-            };
+        createSignalProtocolManager(response.data.userId, this.state.SignalServer)
+            .then((signalProtocalManager) => {
+                var userState = {
+                    ...response.data,
+                    signalProtocalManager,
+                    savedConv,
+                    socket: socket,
+                };
 
-            this.init(userState);
-        });
-    }
+                this.init(userState);
 
-    async componentDidUpdate() {
-        this.props.user.socket.on("receive-message", (data) => {
-            console.log(data);
-        });
+                //incoming message listener
+                socket.on("receive-message", async ({ _msgToSend }) => {
+                    if (!_msgToSend) return;
+
+                    const decryptedMessage = await signalProtocalManager.decryptMessageAsync(
+                        _msgToSend.sender.userId,
+                        _msgToSend.data,
+                    );
+
+                    let msgObj = {
+                        data: decryptedMessage,
+                        type: _msgToSend.type,
+                        time: _msgToSend.time,
+                        origin: false,
+                        msgId: uuid(),
+                    };
+
+                    this.newMessage({ username: _msgToSend.sender.username, msgObj: msgObj });
+                });
+            })
+            .catch((error) => console.log(error));
     }
 
     render() {
@@ -97,7 +124,7 @@ const mapStateToProps = (state) => ({
     UI: state.UI,
 });
 
-export default connect(mapStateToProps, { init })(App);
+export default connect(mapStateToProps, { init, newMessage })(App);
 
 // s:9ucmGEXOcUUINEQh4n3NN3z9qICtmfjs.aOxcRwCW/AaKb//ue+uK+XprDJ+na8qs6+QxD69wYrc
 // s%3Aq-JIvrDmtZ7IjqQMbpiA3DZoSJooutFY.XcG5QsrN6RZ2dQluxyIbfJZgHT2WmOhYUJYah2uhdOY

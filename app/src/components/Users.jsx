@@ -1,5 +1,5 @@
 import "../css/users.css";
-import React from "react";
+import React, { createRef } from "react";
 import { connect } from "react-redux";
 
 import { openConvWindow } from "../redux/slice/UI";
@@ -7,9 +7,17 @@ import { timeCalcl } from "../utils";
 class Users extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.convList = createRef();
     }
 
     makeConversationList = () => {
+        const convList = this.props.user.conversation
+            ? this.props.user.conversation.sort((conv1, conv2) => {
+                  return conv1.username - conv2.username;
+              })
+            : null;
+        if (!convList) return <></>;
+
         let list = this.props.user.conversation.map((conv) => {
             return (
                 <li

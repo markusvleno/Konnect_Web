@@ -8,7 +8,13 @@ class Search extends React.Component {
         return (
             <div className="search">
                 <div className="search-logo">{search()}</div>
-                <input type="text" placeholder="Search" />
+                <input
+                    type="text"
+                    placeholder="Search"
+                    onKeyPress={(e) => {
+                        console.log(e);
+                    }}
+                />
             </div>
         );
     }
