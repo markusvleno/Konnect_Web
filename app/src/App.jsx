@@ -14,6 +14,7 @@ import Option from "./components/Option";
 import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
+import AddFriend from "./components/AddFriend";
 
 import { v4 as uuid } from "uuid";
 
@@ -96,6 +97,7 @@ class App extends React.PureComponent {
     render() {
         return (
             <div className="base">
+                {this.props.UI.newConversationWindow.isOpen ? <AddFriend /> : <></>}
                 <div className="template m-menu-area">
                     <div className="btn-back"></div>
                     <div className="template-logo">

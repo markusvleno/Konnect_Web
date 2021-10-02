@@ -48,7 +48,7 @@ export const user = createSlice({
             state.profilePicture = action.payload.profilePicture;
         },
         newConversation: (state, action) => {
-            state.conversation = new Array(...state.conversation, action.payload);
+            state.conversation = new Array(...state.conversation, action.payload.conv);
         },
         newMessage: async (state, action) => {
             const { username, msgObj } = action.payload;

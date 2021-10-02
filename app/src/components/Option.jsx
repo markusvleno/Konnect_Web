@@ -4,16 +4,12 @@ import { connect } from "react-redux";
 
 import UserDetail from "./UserDetail";
 import { conversation, addFriend, settings, logout } from "../images/svgs";
+import { chatNewConversationWindow } from "../redux/slice/UI";
 
 class Option extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            newConvUI: false,
-        };
     }
-
-    // addNewConversation = () => {};
 
     render() {
         return (
@@ -24,7 +20,8 @@ class Option extends React.Component {
                     <div
                         className="control-svg tab-add"
                         onClick={(e) => {
-                            this.setState({ newConvUI: !this.state.newConvUI });
+                            e.preventDefault();
+                            this.props.chatNewConversationWindow({ value: true });
                         }}
                     >
                         {addFriend()}
@@ -50,4 +47,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI,
 });
 
-export default connect(mapStateToProps, {})(Option);
+export default connect(mapStateToProps, { chatNewConversationWindow })(Option);

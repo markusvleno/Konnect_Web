@@ -10,6 +10,9 @@ export const UI = createSlice({
         settingWindow: {
             isOpen: false,
         },
+        newConversationWindow: {
+            isOpen: false,
+        },
     },
     reducers: {
         openConvWindow: (state, action) => {
@@ -25,14 +28,21 @@ export const UI = createSlice({
             const value = action.payload;
             if (typeof value !== "boolean") {
                 state.settingWindow.isOpen = false;
-                return;
+            } else {
+                state.settingWindow.isOpen = value;
             }
-
-            state.settingWindow.isOpen = value;
+        },
+        chatNewConversationWindow: (state, action) => {
+            const { value } = action.payload;
+            if (typeof value !== "boolean") {
+                state.newConversationWindow.isOpen = false;
+            } else {
+                state.newConversationWindow.isOpen = value;
+            }
         },
     },
 });
 
-export const { changeSettingWindow, openConvWindow } = UI.actions;
+export const { changeSettingWindow, openConvWindow, chatNewConversationWindow } = UI.actions;
 
 export default UI.reducer;

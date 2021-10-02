@@ -10,13 +10,18 @@ class Users extends React.PureComponent {
         this.convList = createRef();
     }
 
+    getLastMsg = (chatLog) => {
+        return chatLog[0].data.length > 20 ? chatLog[0].data.substring(0.2) + "..." : chatLog[0].data;
+    };
+
     makeConversationList = () => {
-        const convList = this.props.user.conversation
-            ? this.props.user.conversation.sort((conv1, conv2) => {
-                  return conv1.username - conv2.username;
-              })
-            : null;
-        if (!convList) return <></>;
+        // const convList = this.props.user.conversation
+        //     ? this.props.user.conversation.sort((conv1, conv2) => {
+        //           return conv1.username - conv2.username;
+        //       })
+        //     : null;
+
+        // console.log(convList);
 
         let list = this.props.user.conversation.map((conv) => {
             return (
@@ -35,12 +40,8 @@ class Users extends React.PureComponent {
                         className="profile"
                     />
                     <div className="name">{conv.username}</div>
-                    <div className="lastMsg">
-                        {conv.chatLog[0].data.length > 20
-                            ? conv.chatLog[0].data.substring(0, 20) + "..."
-                            : conv.chatLog[0].data || ""}
-                    </div>
-                    <div className="lastMsgTime">{timeCalcl(conv.chatLog[0].time) || ""}</div>
+                    <div className="lastMsg">{conv.chatLog.length > 0 ? this.getLastMsg(conv.chatLog) : ""}</div>
+                    <div className="lastMsgTime">{conv.chatLog.length > 0 ? timeCalcl(conv.chatLog[0].time) : ""}</div>
                 </li>
             );
         });

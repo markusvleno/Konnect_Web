@@ -11,25 +11,20 @@ function Conversation() {
     let { signalProtocalManager, socket, username, userId } = useSelector((state) => state.user);
 
     let convUserObj = useSelector((state) => {
-        let temp = {};
-        state.user.conversation.forEach((user) => {
-            if (user.userId === state.UI.convWindow.selectedUserId) temp = user;
+        let temp = [];
+        state.user.conversation.forEach((conv) => {
+            if (conv.userId === state.UI.convWindow.selectedUserId) temp = conv;
         });
         return temp;
     });
 
     const [message, setMessage] = useState("");
-    const [dispatch] = useDispatch();
+    const dispatch = useDispatch();
 
     const scrollBar = useRef(null);
     useEffect(() => {
         scrollBar.current.scrollTop = 9999999;
-        setMessage({ message: "" });
     });
-
-    useEffect(() => {
-        setMessage({ message: "" });
-    }, [message]);
 
     const renderMessageList = () => {
         let chatLog = convUserObj.chatLog;
@@ -54,6 +49,7 @@ function Conversation() {
     const sendMessage = async () => {
         try {
             const encryptedMessage = await signalProtocalManager.encryptMessageAsync(convUserObj.userId, message);
+            console.log(encryptedMessage);
 
             let _msgToSend = {
                 data: encryptedMessage,
@@ -89,11 +85,14 @@ function Conversation() {
         }
     };
 
-    const handleInput = (value) => {
-        let rawMsg = value.trimStart();
-        if (rawMsg.length <= 0 || rawMsg.length > 256) return;
-
-        setMessage({ message: rawMsg });
+    const handleInput = async (e) => {
+        let value = e.target.value.trim();
+        console.log(value);
+        if (value.length <= 0 || value.length > 256) {
+            setMessage("");
+            return;
+        }
+        setMessage(value);
     };
 
     return (
@@ -112,9 +111,7 @@ function Conversation() {
                         id="messageInputText"
                         placeholder="Type a message..."
                         value={message}
-                        onInput={(e) => {
-                            handleInput(e.currentTarget.value);
-                        }}
+                        onInput={handleInput}
                         onKeyPress={async (e) => {
                             if (e.code === "Enter") await sendMessage();
                         }}
