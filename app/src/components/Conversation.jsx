@@ -9,11 +9,15 @@ import { newMessage } from "../redux/slice/user";
 
 function Conversation() {
     let { signalProtocalManager, socket, username, userId } = useSelector((state) => state.user);
+    let { selectedUserId } = useSelector((state) => state.UI.convWindow);
 
     let convUserObj = useSelector((state) => {
         let temp = [];
         state.user.conversation.forEach((conv) => {
-            if (conv.userId === state.UI.convWindow.selectedUserId) temp = conv;
+            if (conv.userId === state.UI.convWindow.selectedUserId) {
+                temp = conv;
+                return;
+            }
         });
         return temp;
     });
@@ -25,6 +29,10 @@ function Conversation() {
     useEffect(() => {
         scrollBar.current.scrollTop = 9999999;
     });
+
+    useEffect(() => {
+        setMessage("");
+    }, [selectedUserId]);
 
     const renderMessageList = () => {
         let chatLog = convUserObj.chatLog;
@@ -49,7 +57,6 @@ function Conversation() {
     const sendMessage = async () => {
         try {
             const encryptedMessage = await signalProtocalManager.encryptMessageAsync(convUserObj.userId, message);
-            console.log(encryptedMessage);
 
             let _msgToSend = {
                 data: encryptedMessage,
@@ -78,7 +85,7 @@ function Conversation() {
                 };
 
                 dispatch(newMessage({ username: _msgToSend.receiver.username, msgObj: msgObj }));
-                setMessage({ message: "" });
+                setMessage("");
             });
         } catch (error) {
             console.log(error);
@@ -86,8 +93,7 @@ function Conversation() {
     };
 
     const handleInput = async (e) => {
-        let value = e.target.value.trim();
-        console.log(value);
+        let value = e.target.value.trimStart();
         if (value.length <= 0 || value.length > 256) {
             setMessage("");
             return;

@@ -72,7 +72,7 @@ class App extends React.PureComponent {
                 this.init(userState);
 
                 //incoming message listener
-                socket.on("receive-message", async ({ _msgToSend }) => {
+                socket.on("receive-message", async (_msgToSend) => {
                     if (!_msgToSend) return;
 
                     const decryptedMessage = await signalProtocalManager.decryptMessageAsync(

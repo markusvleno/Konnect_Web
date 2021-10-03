@@ -1,23 +1,21 @@
-// import logo from "../../images/logo.svg";
-
 import { createSlice } from "@reduxjs/toolkit";
 import { putConversation } from "../../utils";
 import axios from "axios";
 
-let sample = [
-    {
-        username: "brah1",
-        name: "Brah",
-        chatLog: [
-            {
-                data: "sup homie",
-                msgID: 1000,
-                origin: true,
-                time: Date.now(),
-            },
-        ],
-    },
-];
+// let sample = [
+//     {
+//         username: "brah1",
+//         name: "Brah",
+//         chatLog: [
+//             {
+//                 data: "sup homie",
+//                 msgID: 1000,
+//                 origin: true,
+//                 time: Date.now(),
+//             },
+//         ],
+//     },
+// ];
 
 export const user = createSlice({
     name: "user",
@@ -50,32 +48,44 @@ export const user = createSlice({
         newConversation: (state, action) => {
             state.conversation = new Array(...state.conversation, action.payload.conv);
         },
-        newMessage: async (state, action) => {
+        newMessage: (state, action) => {
             const { username, msgObj } = action.payload;
 
             var userObj = null;
             state.conversation.forEach((conv) => {
-                if (conv.username === username) userObj = conv;
+                if (conv.username === username) {
+                    userObj = conv;
+                    return;
+                }
             });
 
             if (!userObj) {
-                await axios.get(`/api/v1/user/?username=${username}`).then((response) => {
-                    if (response.status !== 200 || response.data.code !== 200) {
-                        return;
-                    }
+                axios
+                    .get(`/api/v1/user/?username=${username}`)
+                    .then((res) => {
+                        if (res.status !== 200 || res.data.code !== 200) {
+                            return;
+                        }
 
-                    userObj = {
-                        username: response.data.username,
-                        userId: response.data.userId,
-                        name: response.data.name,
-                        chatLog: [msgObj],
-                    };
-                    state.conversation.push(userObj);
-                });
+                        let newUserObj = {
+                            username: res.data.data.username,
+                            userId: res.data.data.userId,
+                            name: res.data.data.name,
+                            chatLog: [msgObj],
+                        };
+                        state.conversation = [newUserObj, ...state.conversation];
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             } else {
-                userObj.chatLog.push(msgObj);
+                state.conversation = state.conversation.map((conv) => {
+                    if (conv.username === username) {
+                        conv.chatLog = [...conv.chatLog, msgObj];
+                        return conv;
+                    } else return conv;
+                });
             }
-
             putConversation(state.userId, state.conversation);
         },
         deleteConversation: (state, action) => {

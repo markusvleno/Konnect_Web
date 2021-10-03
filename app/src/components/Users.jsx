@@ -11,7 +11,9 @@ class Users extends React.PureComponent {
     }
 
     getLastMsg = (chatLog) => {
-        return chatLog[0].data.length > 20 ? chatLog[0].data.substring(0.2) + "..." : chatLog[0].data;
+        const lmsg = chatLog[chatLog.length - 1];
+
+        return lmsg.data.length > 20 ? lmsg.data.substring(0.2) + "..." : lmsg.data;
     };
 
     makeConversationList = () => {

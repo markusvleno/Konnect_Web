@@ -38,12 +38,12 @@ export class SignalServerStore {
         storageBundle.signedPreKey.publicKey = util.arrayBufferToBase64(storageBundle.signedPreKey.publicKey);
         storageBundle.signedPreKey.signature = util.arrayBufferToBase64(storageBundle.signedPreKey.signature);
         // localStorage.setItem(userId, JSON.stringify(storageBundle));
-        await this.postBundle(userId, storageBundle);
+        await this.postBundle(userId, JSON.stringify(storageBundle));
     }
 
     async updatePreKeyBundle(userId, preKeyBundle) {
         // localStorage.setItem(userId, JSON.stringify(preKeyBundle));
-        await this.postBundle(userId, preKeyBundle);
+        await this.postBundle(userId, JSON.stringify(preKeyBundle));
     }
     /**
      * Gets the pre-key bundle for the given user ID.
@@ -54,9 +54,7 @@ export class SignalServerStore {
     async getPreKeyBundle(userId) {
         // let preKeyBundle = JSON.parse(localStorage.getItem(userId));
 
-        let preKeyBundle = await this.getBundle(userId);
-
-        console.log(preKeyBundle);
+        let preKeyBundle = JSON.parse(await this.getBundle(userId));
 
         let preKey = preKeyBundle.preKeys.splice(-1);
         preKey[0].publicKey = util.base64ToArrayBuffer(preKey[0].publicKey);
@@ -87,7 +85,7 @@ export class SignalServerStore {
     }
 
     async getBundle(userId) {
-        await this.bundleAPI
+        let bundle = await this.bundleAPI
             .get(`/?id=${userId}`)
             .then((response) => {
                 if (response.status !== 200 || response.data.code !== 200) {
@@ -101,6 +99,8 @@ export class SignalServerStore {
                 console.log(error);
                 return {};
             });
+
+        return bundle;
     }
 }
 
@@ -134,12 +134,12 @@ class SignalProtocolManager {
     async encryptMessageAsync(remoteUserId, message) {
         var sessionCipher = this.store.loadSessionCipher(remoteUserId);
 
-        if (sessionCipher == null) {
+        if (sessionCipher === null) {
             var address = new libsignal.SignalProtocolAddress(remoteUserId, 123);
             // Instantiate a SessionBuilder for a remote recipientId + deviceId tuple.
             var sessionBuilder = new libsignal.SessionBuilder(this.store, address);
 
-            var remoteUserPreKey = this.signalServerStore.getPreKeyBundle(remoteUserId);
+            var remoteUserPreKey = await this.signalServerStore.getPreKeyBundle(remoteUserId);
             // Process a prekey fetched from the server. Returns a promise that resolves
             // once a session is created and saved in the store, or rejects if the
             // identityKey differs from a previously seen identity for this address.
