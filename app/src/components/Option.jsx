@@ -4,19 +4,23 @@ import { connect } from "react-redux";
 
 import UserDetail from "./UserDetail";
 import { conversation, addFriend, settings, logout } from "../images/svgs";
-import { chatNewConversationWindow } from "../redux/slice/UI";
+import { chatNewConversationWindow, openConvWindow } from "../redux/slice/UI";
 
 class Option extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="option">
                 <UserDetail />
                 <div className="controls">
-                    <div className="control-svg tab-conversation">{conversation()}</div>
+                    <div
+                        className="control-svg tab-conversation"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            this.props.openConvWindow({ userId: null, isSelected: false });
+                        }}
+                    >
+                        {conversation()}
+                    </div>
                     <div
                         className="control-svg tab-add"
                         onClick={(e) => {
@@ -27,7 +31,14 @@ class Option extends React.Component {
                         {addFriend()}
                     </div>
                     <div className="control-svg tab-settings">{settings()}</div>
-                    <div className="control-svg tab-logout">{logout()}</div>
+                    <div
+                        className="control-svg tab-logout"
+                        onClick={(e) => {
+                            e.preventDefault();
+                        }}
+                    >
+                        {logout()}
+                    </div>
                 </div>
                 <div className="me-photo">
                     <img
@@ -47,4 +58,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI,
 });
 
-export default connect(mapStateToProps, { chatNewConversationWindow })(Option);
+export default connect(mapStateToProps, { chatNewConversationWindow, openConvWindow })(Option);

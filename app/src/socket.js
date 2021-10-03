@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 export class SocketHandler {
     constructor() {
-        this.socket = new io("http://localhost:5000/chat", {
+        this.socket = new io("/chat", {
             path: "/sockets",
             autoConnect: true,
             reconnectionDelay: 1000,

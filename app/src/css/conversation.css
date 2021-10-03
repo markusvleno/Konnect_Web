@@ -41,7 +41,7 @@
 }
 
 .nself {
-    justify-content: left;
+    justify-self: left;
     border-radius: 25px 25px 25px 0px;
     background-color: var(--front);
 }

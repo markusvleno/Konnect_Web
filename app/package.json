@@ -2,7 +2,8 @@
     "name": "app",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://localhost:5000",
+    "homepage": "/static/app",
+    "proxy": "http://192.168.1.101:5000",
     "dependencies": {
         "@reduxjs/toolkit": "^1.6.1",
         "@testing-library/jest-dom": "^5.12.0",
