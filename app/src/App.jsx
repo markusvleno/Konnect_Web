@@ -3,6 +3,7 @@ import "./css/template.css";
 import React from "react";
 import { connect } from "react-redux";
 import { newMessage, init } from "./redux/slice/user";
+import { openConvWindow } from "./redux/slice/UI";
 import { createSignalProtocolManager, SignalServerStore } from "./signal/SignalGateway";
 import { getConversation } from "./utils";
 import { io } from "socket.io-client";
@@ -15,6 +16,7 @@ import Search from "./components/Search";
 import Users from "./components/Users";
 import Conversation from "./components/Conversation";
 import AddFriend from "./components/AddFriend";
+import { controlArrow } from "./images/svgs";
 
 import { v4 as uuid } from "uuid";
 
@@ -99,7 +101,6 @@ class App extends React.PureComponent {
             <div className="base">
                 {this.props.UI.newConversationWindow.isOpen ? <AddFriend /> : <></>}
                 <div className="template m-menu-area">
-                    <div className="btn-back"></div>
                     <div className="template-logo">
                         <Logo />
                     </div>
@@ -112,9 +113,34 @@ class App extends React.PureComponent {
                     <div className="template-users">
                         <Users convObjRef={this.convObjRef} />
                     </div>
-                    <div className="template-converstion">
-                        {this.props.UI.convWindow.isSelected ? <Conversation /> : <></>}
-                    </div>
+                    {/* <div className="template-converstion">
+                        {this.props.UI.convWindow.isSelected ? (
+                            <>
+                                <div className="backBtn">{controlArrow()}</div>
+                                <Conversation />
+                            </>
+                        ) : (
+                            <></>
+                        )}
+                    </div> */}
+                    {this.props.UI.convWindow.isSelected ? (
+                        <div className="template-converstion">
+                            <>
+                                <div
+                                    className="backBtn"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        this.props.openConvWindow({ userId: null, isSelected: false });
+                                    }}
+                                >
+                                    {controlArrow()}
+                                </div>
+                                <Conversation />
+                            </>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
         );
@@ -126,7 +152,7 @@ const mapStateToProps = (state) => ({
     UI: state.UI,
 });
 
-export default connect(mapStateToProps, { init, newMessage })(App);
+export default connect(mapStateToProps, { init, newMessage, openConvWindow })(App);
 
 // s:9ucmGEXOcUUINEQh4n3NN3z9qICtmfjs.aOxcRwCW/AaKb//ue+uK+XprDJ+na8qs6+QxD69wYrc
 // s%3Aq-JIvrDmtZ7IjqQMbpiA3DZoSJooutFY.XcG5QsrN6RZ2dQluxyIbfJZgHT2WmOhYUJYah2uhdOY

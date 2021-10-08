@@ -108,6 +108,20 @@ mobile view port
 */
 
 @media screen and (max-width: 900px) {
+    .conversation {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        height: 88vh;
+        width: 90vw;
+        margin: 0 5vw;
+        margin-bottom: 2vh;
+    }
+
+    .sendBtn {
+        width: 60px;
+        height: 40px;
+    }
 }
 
 ul {
