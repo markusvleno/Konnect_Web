@@ -46,16 +46,16 @@ class App extends React.PureComponent {
             .catch((error) => console.log(error));
 
         // socket
-        const socket = new io("http://localhost:5000/chat", {
+        const socket = new io("/chat", {
             path: "/sockets",
             autoConnect: true,
             reconnectionDelay: 1000,
             withCredentials: true,
             forceNew: false,
             reconnectionAttempts: 3,
-            extraHeaders: {
-                "Access-Control-Allow-Origin": "http://localhost",
-            },
+            // extraHeaders: {
+            //     "Access-Control-Allow-Origin": "http://localhost",
+            // },
             query: {
                 userId: response.data.userId,
             },
