@@ -113,16 +113,6 @@ class App extends React.PureComponent {
                     <div className="template-users">
                         <Users convObjRef={this.convObjRef} />
                     </div>
-                    {/* <div className="template-converstion">
-                        {this.props.UI.convWindow.isSelected ? (
-                            <>
-                                <div className="backBtn">{controlArrow()}</div>
-                                <Conversation />
-                            </>
-                        ) : (
-                            <></>
-                        )}
-                    </div> */}
                     {this.props.UI.convWindow.isSelected ? (
                         <div className="template-converstion">
                             <>
@@ -154,5 +144,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, { init, newMessage, openConvWindow })(App);
 
-// s:9ucmGEXOcUUINEQh4n3NN3z9qICtmfjs.aOxcRwCW/AaKb//ue+uK+XprDJ+na8qs6+QxD69wYrc
-// s%3Aq-JIvrDmtZ7IjqQMbpiA3DZoSJooutFY.XcG5QsrN6RZ2dQluxyIbfJZgHT2WmOhYUJYah2uhdOY
+

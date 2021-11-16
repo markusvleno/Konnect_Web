@@ -30,11 +30,12 @@ class Option extends React.Component {
                     >
                         {addFriend()}
                     </div>
-                    <div className="control-svg tab-settings">{settings()}</div>
+                    {/* <div className="control-svg tab-settings">{settings()}</div> */}
                     <div
                         className="control-svg tab-logout"
                         onClick={(e) => {
                             e.preventDefault();
+                            window.location = "\logout";
                         }}
                     >
                         {logout()}
