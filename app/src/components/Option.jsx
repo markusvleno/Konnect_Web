@@ -3,8 +3,9 @@ import React from "react";
 import { connect } from "react-redux";
 
 import UserDetail from "./UserDetail";
-import { conversation, addFriend, settings, logout } from "../images/svgs";
+import { conversation, addFriend, deleteSVG, logout } from "../images/svgs";
 import { chatNewConversationWindow, openConvWindow } from "../redux/slice/UI";
+import { deleteConversation } from '../redux/slice/user';
 
 class Option extends React.Component {
     render() {
@@ -30,7 +31,13 @@ class Option extends React.Component {
                     >
                         {addFriend()}
                     </div>
-                    {/* <div className="control-svg tab-settings">{settings()}</div> */}
+                    <div className="control-svg tab-delete" onClick={(e) => {
+                        e.preventDefault();
+                        if (this.props.UI.isSelected) {
+                            this.props.deleteConversation({ userId: this.props.UI.selectedUserId });
+                        }
+                        this.props.openConvWindow({ userId: null, isSelected: false });
+                    }} >{deleteSVG()}</div>
                     <div
                         className="control-svg tab-logout"
                         onClick={(e) => {
@@ -59,4 +66,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI,
 });
 
-export default connect(mapStateToProps, { chatNewConversationWindow, openConvWindow })(Option);
+export default connect(mapStateToProps, {deleteConversation, chatNewConversationWindow, openConvWindow })(Option);

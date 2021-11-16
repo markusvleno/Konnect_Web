@@ -89,13 +89,13 @@ export const user = createSlice({
             putConversation(state.userId, state.conversation);
         },
         deleteConversation: (state, action) => {
-            const { username } = action.payload;
+            const { userId } = action.payload;
             const newState = state.conversation.forEach((conv) => {
-                if (conv.username !== username);
-                return conv;
+                if (conv.userId !== userId) return conv;
             });
 
             state.conversation = new Array(newState);
+            putConversation(state.userId, state.conversation);
         },
     },
 });
